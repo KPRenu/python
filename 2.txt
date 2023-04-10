@@ -1,0 +1,30 @@
+from sympy import*
+r , t = symbols ('r,t') 
+r1=4*( 1+cos(t)) ; 
+r2=5*( 1-cos(t)) ;
+dr1 = diff(r1,t) 
+dr2 = diff(r2,t)
+t1=r1/dr1
+t2=r2/dr2
+q= solve(r1-r2,t) 
+
+w1=t1.subs ({t: float(q[0])})
+w2=t2.subs ({t: float(q[0])}) 
+y1= atan(w1) 
+y2= atan(w2) 
+w=abs(y1-y2) 
+print ('Angle between curves in radians is %0.4f, '%( w ) )
+if (round(float(w),2)==float('1.57')):
+   print("And the Curves cut each other Orthogonally")
+
+
+
+
+from sympy import*
+r, t= symbols ('r t') 
+r=4*(1+cos(t))
+r1= diff(r,t)
+r2= diff(r1,t) 
+rho =((r**2+r1**2)**(1.5))/(r**2+2*r1**2-r*r2); 
+rho1 = rho.subs(t,pi/2) # substitute t in rho
+print('The radius of curvature is %4.4f units '% rho1 )
