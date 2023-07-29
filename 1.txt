@@ -1,33 +1,82 @@
-import numpy as np
-import matplotlib.pyplot as plt
+import numpy as np 
+from sympy import* 
+import math 
 
-plt.axes(projection = 'polar')
+def f(x): 
+    return x**3-5*x-9 
 
-r = 2
-
-rads = np.arange(0, (2 * np.pi), 0.01)
-
-for rad in rads:
-plt.polar(rad, r, 'g.')
-
-plt . title (" Circle ")
-plt.show()
-
-
-
-import numpy as np
-import matplotlib.pyplot as plt
-import math
+def falsePosition(x0,x1,e): 
+    step = 1 
+    print('\n\n*** FALSE POSITION METHOD IMPLEMENTATION ***') 
+    condition = True 
+    while condition: 
+         x2 = x0 - (x1-x0) * f(x0)/( f(x1) - f(x0) ) 
+         print('Iteration-%d, x2 = %0.6f and f(x2) = %0.6f' % (step, x2, f(x2))) 
+         if f(x0) * f(x2) < 0: 
+             x1 = x2 
+         else: 
+             x0 = x2 
+         step = step + 1 
+         condition = abs(f(x2)) > e 
+    print('\n Required root is: %0.8f' % x2) 
  
-plt.axes(projection = 'polar')
+x0 = input('First Guess: ') 
+x1 = input('Second Guess: ') 
+e = input('Tolerable Error: ') 
+
+x0 = float(x0) 
+x1 = float(x1) 
+e = float(e) 
+
+if f(x0) * f(x1) > 0.0: 
+    print('Given guess values do not bracket the root.') 
+    print('Try Again with different guess values.') 
+else: 
+    falsePosition(x0,x1,e)
+
+
+
+
+
+import numpy as np 
+from sympy import* 
+import math 
  
-a=4
+def f(x): 
+    return x**3 - 5*x - 9 
  
-rads = np.arange(0, (2 * np.pi), 0.01)
+def g(x): 
+    return 3*x**2 - 5 
  
-for rad in rads:
- r = a + (a*np.cos(rad)) 
- plt.polar(rad,r,'g.') 
- 
-plt .title (" Cardioid ") # Add a title 
-plt.show()
+def newtonRaphson(x0,e,N): 
+    print('\n\n*** NEWTON RAPHSON METHOD IMPLEMENTATION ***') 
+    step = 1 
+    flag = 1 
+    condition = True 
+    while condition: 
+        if g(x0) == 0.0: 
+            print('Divide by zero error!') 
+            break 
+         
+        x1 = x0 - f(x0)/g(x0) 
+        print('Iteration-%d, x1 = %0.6f and f(x1) = %0.6f' % (step, x1, f(x1))) 
+        x0 = x1 
+        step = step + 1 
+         
+        if step > N: 
+            flag = 0 
+            break 
+         
+        condition = abs(f(x1)) > e 
+     
+    if flag==1: 
+        print('\n Required root is: %0.8f' % x1) 
+    else: 
+        print('\n Not Convergent.')
+x0 = input('Enter Guess: ') 
+e = input('Tolerable Error: ') 
+N = input('Maximum Step: ') 
+x0 = float(x0) 
+e = float(e) 
+N = int(N) 
+newtonRaphson(x0,e,N) 
