@@ -1,58 +1,45 @@
-import numpy as np
-from matplotlib import pyplot as plt
-from sympy import *
-x= Symbol ('x')
-y=log(x)
-format
-x0= 1
-dy= diff (y ,x)
-d2y = diff (y ,x , 2)
-d3y = diff (y ,x , 3)
-d4y = diff (y ,x , 4)
-y0 = lambdify (x , y)
-dyat = lambdify (x , dy)
-d2yat = lambdify (x , d2y)
-d3yat = lambdify (x , d3y)
-d4yat = lambdify (x , d4y)
-y=y0(x0)+((x-x0)/1)*dyat(x0)+((x-x0)**2/2)* d2yat(x0)+((x-x0)**3/6)*d3yat(x0)+((x-x0)**4/24)*d4yat(x0)
-print ("Taylor series expansion of log(x) about x=1:", simplify(y))
-t1=1.1
-y1 = y.subs (x, t1) ;
-print('From the obtained Taylor series, log(1.1)~',simplify(float(y1)))
-print(‘Verification:’)
-print('Actual value of log(1.1) is:', float(log(1.1)))
-print('Taylor series:')
-simplify((x-1)-(x-1)**2/2+(x-1)**3/3-(x-1)**4/4.0)
+def f(x): 
+    return 1/(1 + x**2) 
+
+def trapezoidal(x0,xn,n): 
+    h = (xn - x0) / n 
+
+    integration = f(x0) + f(xn) 
+    for i in range(1,n): 
+        k = x0 + i*h 
+        integration = integration + 2 * f(k) 
+
+    integration = i tegration * h/2 
+    return integration 
+ 
+lower_limit = float(input("Enter lower limit of integration: ")) 
+upper_limit = float(input("Enter upper limit of integration: "))
+sub_interval = int(input("Enter number of sub intervals: ")) 
+result = trapezoidal(lower_limit, upper_limit, sub_interval) 
+print("Integration result by Trapezoidal method is: %0.6f" % (result) )
 
 
 
 
-import numpy as np
-from matplotlib import pyplot as plt
-from sympy import*
-x= Symbol('x')
-y=sin(x)+cos(x)
-format
-x0= 0
-dy= diff(y , x)
-d2y = diff(y ,x , 2)
-d3y = diff(y ,x , 3)
-yat = lambdify(x , y)
-dyat = lambdify(x , dy )
-d2yat = lambdify(x , d2y )
-d3yat = lambdify(x , d3y )
-y=yat(x0)+((x-x0))*dyat(x0)+((x-x0)**2/2)* d2yat(x0)+((x-x0)**3/6)*d3yat(x0)
-print ("Maclaurins series expansion:", simplify ( y ) )
-yat = lambdify(x , y)
-print ("Approximated value of sin(10)+cos(10)~%.3f" % yat(10*(pi/180 )))
-print("Exact value of sin(10)+cos(10)~%.3f" %(sin(10*(pi/180))+cos(10*(pi/180))))
-# Plotting the graph of sin(x)+cos(x):
-def f(x):
- return np.sin(x)+np.cos(x)
-x = np.linspace(-10 , 10 )
-plt.plot (x , yat(x) , label ='approximated curve')
-plt.plot (x , f(x) , label ='actual curve')
-plt.ylim ([-3 , 3])
-plt.grid()
-plt .legend () 
-plt.show()
+def f(x): 
+    return 1/(1 + x**2) 
+ 
+def simpson13(x0,xn,n): 
+          h = (xn - x0) / n 
+          integration = f(x0) + f(xn) 
+          for i in range(1,n): 
+              k = x0 + i*h 
+              if i%2 == 0: 
+                 integration = integration + 2 * f(k) 
+              else: 
+                   integration = integration + 4 * f(k) 
+
+integration = integration * h/3 
+return integration 
+
+lower_limit = float(input("Enter lower limit of integration: ")) 
+upper_limit = float(input("Enter upper limit of integration: ")) 
+sub_interval = int(input("Enter number of sub intervals: ")) 
+ 
+result = simpson13(lower_limit, upper_limit, sub_interval) 
+print("Integration result by Simpson's 1/3 method is: %0.6f" % (result) ) 
