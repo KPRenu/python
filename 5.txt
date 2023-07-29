@@ -1,48 +1,24 @@
-import numpy as np #Import necessary libraries
-
-A=np . matrix ([[1 ,2 ,-1],[2 ,1 , 4],[3 ,3 , 4]])
-
-B=np . matrix ([[1],[2],[1]])
-
-AB=np . concatenate (( A , B ) , axis =1 ) 
-rA=np . linalg . matrix_rank ( A ) 
-rAB =np . linalg . matrix_rank ( AB ) 
-n=A . shape [1]#Computing order of matrix A
-
-if ( rA==rAB ):#Checking for consistency
- if ( rA==n ):#Checking for unique solution
-   print ("The system has unique solution ")
-   print ( np . linalg . solve (A , B ) )
- else :
-   print ("The system has infinitely many solutions ")
-else :
- print ("The system of equations is inconsistent ")
+from sympy import beta , gamma 
+m= input ('m :'); 
+n= input ('n :'); 
+m= float (m); 
+n= float (n); 
+s= beta (m,n); 
+t= gamma (n) 
+print ('gamma (',n,') is %3.3f '%t) 
+print ('Beta (',m,',',n,') is %3.3f '%s)
 
 
 
-
-from sympy import*
-import numpy as np
-import matplotlib . pyplot as plt
-x , y= symbols ('x,y')
-sol = solve ([2*x+y-7 , 3*x-y-3],[x , y])
-p=sol[x]
-q=sol[y]
-print ('Point of intersection is A (', p ,',', q , ')\n' )
-x = np . arange (-10 , 10 , 0.001 )
-y1 = 7-2*x
-y2=3*x-3
-plt . plot (x , y1 ,'r')
-plt . plot (x , y2 ,'g')
-plt . plot (p ,q , marker = '*')
-plt . annotate ('A', xy=(p , q ) , xytext =( p+0.5 , q ) )
-plt . xlim (-10 , 10 )
-plt . ylim (-10 , 10 )
-plt . axhline ( y=0 )
-plt . axvline ( x=0 )
-plt . title ("$2x+y=7; 3x -y=3$")
-plt . xlabel (" Values of x")
-plt . ylabel (" Values of y ")
-plt . legend (['$2x+y=7$ ', '$3x -y-3$ '])
-plt . grid ()
-plt . show ()
+from sympy import beta , gamma 
+m=5; 
+n=7; 
+m= float (m); 
+n= float (n); 
+s= beta (m,n); 
+t=( gamma (m)* gamma (n))/ gamma (m+n); 
+print('LHS = Beta(m,n)=',s,'\nRHS = Gamma(m)*Gamma(n))/Gamma(m+n)=',t)
+ if (abs (s-t)<=0.00001 ): 
+     print ('Beta and Gamma are related ') 
+else : 
+     print ('Given values are wrong ')
