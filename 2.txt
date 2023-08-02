@@ -1,75 +1,84 @@
-import numpy as np 
-from sympy import* 
-import math 
+def r_cal(r, n):
+    temp = r;
+    for i in range(1, n):
+        temp = temp * (r - i);
+    return temp;
 
-def r_cal(r, n): 
-    temp = r; 
-    for i in range(1, n): 
-        temp = temp * (r - i); 
-    return temp; 
+def fact(n):
+    f = 1;
+    for i in range(2, n + 1):
+        f=f * i;
+    return f;
+    
+import numpy as np
+from sympy import*
+import math
 
-def fact(n): 
-    f = 1; 
-    for i in range(2, n + 1): 
-        f=f * i; 
-        return f;
- 
-n = 4; 
-x = [ 45, 50, 55, 60 ]; 
+n = 4;
+x = [ 45, 50, 55, 60 ];
+# y[][] is used for difference table with y[i][0] used for input
 y = [[0 for i in range(n)]
-       for j in range(n)]; 
-y[0][0] = 0.7071; 
-y[1][0] = 0.7660; 
-y[2][0] = 0.8192; 
-y[3][0] = 0.8660; 
-print('The forward difference table is:') 
 
-for i in range(1, n): 
-    for j in range(n - i): 
-        y[j][i] = y[j + 1][i - 1] - y[j][i - 1]; 
+        for j in range(n)];
+y[0][0] = 0.7071;
+y[1][0] = 0.7660;
+y[2][0] = 0.8192;
+y[3][0] = 0.8660;
 
-for i in range(n): 
-     print(x[i], end = "\t"); 
-     for j in range(n - i): 
-          print(y[i][j], end = "\t"); 
-     print(""); 
- 
-value = 52; 
-sum = y[0][0]; 
-r = (value - x[0]) / (x[1] - x[0]); 
-print('r=',r) 
-for i in range(1,n): 
-    sum = sum + (r_cal(r, i) * y[0][i]) / fact(i); 
+print('The forward difference table is:')
 
+for i in range(1, n):
+    for j in range(n - i):
+        y[j][i] = y[j + 1][i - 1] - y[j][i - 1];
+
+for i in range(n):
+    print(x[i], end = "\t");
+    for j in range(n - i):
+        print(y[i][j], end = "\t");
+    print("");
+
+value = 52;
+
+sum = y[0][0];
+r = (value - x[0]) / (x[1] - x[0]);
+print('r=',r)
+for i in range(1,n):
+    sum = sum + (r_cal(r, i) * y[0][i]) / fact(i);
 print("\nValue at", value,"is", round(sum, 6));
 
 
-import numpy as np 
-def r_cal(r, n):  
-    temp = r;  
-    for i in range(1, n):  
-        temp = temp * (r + i);  
-    return temp;  
 
-x = np.array([0, 2, 4, 6, 8, 10],float) 
-y = np.array([0.15, 1.56, 2.15, 2.60, 3, 3.30],float) 
-print('Difference Table:') 
-n = len(x) 
-p = np.zeros([n, n+1]) 
-for i in range(n): 
-    p[i, 0] = x[i] 
-    p[i, 1] = y[i] 
-for i in range(2, n+1):  
-     for j in range(n+1-i):  
-         p[j][i] = p[j + 1][i - 1] - p[j][i - 1] 
-for i in range(n):  
-     for j in range(n+1-i):  
-          print(round(p[i][j], 4), end = "\t")  
-print("") 
-  
-z = float(input('Enter the point at which you want to calculate:')) 
-sum = p[-1][1] 
-r = (z - x[-1]) / (x[1] - x[0]) 
-for i in range(1,n):  
-    sum = sum + (r_cal(r, i) * p[n-(i+1)][i+1]) / np.math.factorial(i)
-print("\n Value at", z, "is", round(sum, 6)) 
+
+import numpy as np
+
+def r_cal(r, n):
+     temp = r;
+     for i in range(1, n):
+           temp = temp * (r + i);
+     return temp;
+
+x = np.array([45,50,55,60],float)
+y = np.array([0.7071,0.7660,0.8192,0.8660],float)
+print('Difference Table:')
+n = len(x)
+p = np.zeros([n, n+1])
+for i in range(n):
+    p[i, 0] = x[i]
+    p[i, 1] = y[i]
+for i in range(2, n+1):
+      for j in range(n+1-i):
+            p[j][i] = p[j + 1][i - 1] - p[j][i - 1]
+
+for i in range(n):
+     for j in range(n+1-i):
+           print(round(p[i][j], 4), end = "\t")
+     print("")
+
+z = float(input('Enter the point at which you want to calculate:'))
+sum = p[-1][1]
+r = (z - x[-1]) / (x[1] - x[0])
+for i in range(1,n):
+      sum = sum + (r_cal(r, i) * p[n-(i+1)][i+1]) / np.math.factorial(i)
+
+
+print("\n Value at", z, "is", round(sum, 6))
