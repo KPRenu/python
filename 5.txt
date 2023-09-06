@@ -1,3 +1,7 @@
+beta 3,5
+beta 5,7
+
+
 from sympy import beta , gamma 
 m= input ('m :'); 
 n= input ('n :'); 
