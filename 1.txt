@@ -1,82 +1,117 @@
-import numpy as np 
-from sympy import* 
-import math 
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+struct node
+{
+    int info;
+    struct node*link;
+};
+typedef struct node*NODE;
+NODE getnode(void)
+{
+    NODE x;
+    x=(NODE)malloc(sizeof(struct node));
+    if(x==NULL)
+    {
+        printf("out of memory\n");
+        exit(0);
+    }
+    return x;
+}
+NODE insertrear(int item,NODE first)
+{
+    NODE temp,cur;
+    temp=getnode();
+    temp->info=item;
+    temp->link=NULL;
+    if(first==NULL)
+    {
+        return temp;
+    }
+    cur=first;
+    while(cur->link!=NULL)
+    {
+        cur=cur->link;
+    }
+    cur->link=temp;
+    return first;
+}
+NODE deleteitem(NODE first,int item)
+{
+    NODE pre,cur;
+    if(first==NULL)
+    {
+        printf("list is empty\n");
+        return first;
+    }
+    pre=NULL;
+    cur=first;
+    while(cur!=NULL && item!=cur->info)
+    {
+        pre=cur;
+        cur=cur->link;
+    }
+    if(cur==NULL)
+    {
+        printf("the item to be deleted not found in list\n");
+        return first;
+    }
+    pre->link=cur->link;
+    free(cur);
+    return first;
+}
+void display(NODE first)
+{
+    NODE temp;
+    if(first==NULL)
+    {
+        printf("list is empty\n");
+        return ;
+    }
+    printf("the content of list ");
+    temp=first;
+    while(temp!=NULL)
+    {
+        printf("%d ",temp->info);
+        temp=temp->link;
 
-def f(x): 
-    return x**3-5*x-9 
+    }
+    printf("\n");
+}
+int main()
+{
+    NODE first=NULL;
+    int choice,item,n,i;
+    for(;;)
+    {
+        printf("1:create list 2:delete specified item\n");
+        printf("3:display 4:exit\n");
+        printf("enter choice\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:printf("enter the no. of nodes to create list\n");
+            scanf("%d",&n);
+            for(i=0;i<n;i++)
+            {
+                printf("enter the item %d to be inserted\n",i);
+                scanf("%d",&item);
+                first=insertrear(item,first);
+            }
+            break;
+            case 2:printf("enter the item to be deleted\n");
+            scanf("%d",&item);
+            first=deleteitem(first,item);
+            break;
+            case 3:display(first);
+            break;
+            case 4:printf("exit\n");
+                exit(0);
+                break;
+            default:printf("invalid choice\n");
+                exit(0);
 
-def falsePosition(x0,x1,e): 
-    step = 1 
-    print('\n\n*** FALSE POSITION METHOD IMPLEMENTATION ***') 
-    condition = True 
-    while condition: 
-         x2 = x0 - (x1-x0) * f(x0)/( f(x1) - f(x0) ) 
-         print('Iteration-%d, x2 = %0.6f and f(x2) = %0.6f' % (step, x2, f(x2))) 
-         if f(x0) * f(x2) < 0: 
-             x1 = x2 
-         else: 
-             x0 = x2 
-         step = step + 1 
-         condition = abs(f(x2)) > e 
-    print('\n Required root is: %0.8f' % x2) 
- 
-x0 = input('First Guess: ') 
-x1 = input('Second Guess: ') 
-e = input('Tolerable Error: ') 
-
-x0 = float(x0) 
-x1 = float(x1) 
-e = float(e) 
-
-if f(x0) * f(x1) > 0.0: 
-    print('Given guess values do not bracket the root.') 
-    print('Try Again with different guess values.') 
-else: 
-    falsePosition(x0,x1,e)
-
-
-
-
-
-import numpy as np 
-from sympy import* 
-import math 
- 
-def f(x): 
-    return x**3 - 5*x - 9 
- 
-def g(x): 
-    return 3*x**2 - 5 
- 
-def newtonRaphson(x0,e,N): 
-    print('\n\n*** NEWTON RAPHSON METHOD IMPLEMENTATION ***') 
-    step = 1 
-    flag = 1 
-    condition = True 
-    while condition: 
-        if g(x0) == 0.0: 
-            print('Divide by zero error!') 
-            break 
-         
-        x1 = x0 - f(x0)/g(x0) 
-        print('Iteration-%d, x1 = %0.6f and f(x1) = %0.6f' % (step, x1, f(x1))) 
-        x0 = x1 
-        step = step + 1 
-         
-        if step > N: 
-            flag = 0 
-            break 
-         
-        condition = abs(f(x1)) > e 
-     
-    if flag==1: 
-        print('\n Required root is: %0.8f' % x1) 
-    else: 
-        print('\n Not Convergent.')
-x0 = input('Enter Guess: ') 
-e = input('Tolerable Error: ') 
-N = input('Maximum Step: ') 
-x0 = float(x0) 
-e = float(e) 
-N = int(N) 
-newtonRaphson(x0,e,N) 
+        }
+    }
+    return 0;   
+}
