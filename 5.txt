@@ -1,28 +1,75 @@
-beta 3,5
-beta 5,7
-
-
-from sympy import beta , gamma 
-m= input ('m :'); 
-n= input ('n :'); 
-m= float (m); 
-n= float (n); 
-s= beta (m,n); 
-t= gamma (n) 
-print ('gamma (',n,') is %3.3f '%t) 
-print ('Beta (',m,',',n,') is %3.3f '%s)
-
-
-
-from sympy import beta , gamma 
-m=5; 
-n=7; 
-m= float (m); 
-n= float (n); 
-s= beta (m,n); 
-t=( gamma (m)* gamma (n))/ gamma (m+n); 
-print('LHS = Beta(m,n)=',s,'\nRHS = Gamma(m)*Gamma(n))/Gamma(m+n)=',t)
- if (abs (s-t)<=0.00001 ): 
-     print ('Beta and Gamma are related ') 
-else : 
-     print ('Given values are wrong ')
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+int findmaxelement(int arr[],int size)
+{
+    int static i=0,max=-999;
+    if(i<size)
+    {
+        if(max<arr[i])
+        {
+            max=arr[i];
+        }
+        i++;
+        findmaxelement(arr,size);
+    }
+    return max;
+}
+int gcd(int m,int n)
+{
+    if(n==0)
+        return m;
+    if(m<n)
+        return gcd(n,m);    
+    return gcd(n,m%n);
+}
+void tower(int n,char scr,char aux,char dest)
+{
+    if(n==1)
+    {
+        printf("move disk %d from peg %c to peg %c \n",n,scr,dest);
+        return ;
+    }
+    tower(n-1,scr,dest,aux);
+    printf("move disk %d from peg %c to peg %c \n",n,scr,dest);
+    tower(n-1,aux,scr,dest);
+}
+void main()
+{
+    int arr[20];
+    int i,n,m,res,num,ch,max;
+    for(;;)
+    {
+        printf("1:find max element\n");
+        printf("2:multiplication of two natural numbers\n");
+        printf("3:tower of hanoi\n");
+        printf("4:exit\n");
+        printf("enter your choice\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:printf("enter the size of array\n");
+            scanf("%d",&n);
+            printf("enter %d element of an array\n",n);
+            for(i=0;i<n;i++)
+            {
+                scanf("%d",&arr[i]);
+            }
+            max=findmaxelement(arr,n);
+            printf("maximum element in the array is %d\n",max);
+            break;
+            case 2:printf("enter the gcd of two number \n");
+            scanf("%d%d",&m,&n);
+            res=gcd(m,n);
+            printf("gcd of two no. %d and %d is %d\n",m,n,res);
+            break;
+            case 3:printf("enter the number of disks \n");
+            scanf("%d",&num);
+            printf("the sequence of moves are\n");
+            tower(num,'S','T','D');
+            break;
+            default:
+                exit(0);
+        }
+    }
+}
