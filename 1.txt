@@ -1,117 +1,55 @@
 #include<stdio.h>
-#include<stdlib.h>
 #include<conio.h>
-struct node
+struct distance
 {
-    int info;
-    struct node*link;
+    int km,m;
 };
-typedef struct node*NODE;
-NODE getnode(void)
+typedef struct distance Distance;
+Distance add(Distance *,Distance *);
+Distance sub(Distance *,Distance *);
+Distance d1,d2,d3,d4;
+void main()
 {
-    NODE x;
-    x=(NODE)malloc(sizeof(struct node));
-    if(x==NULL)
-    {
-        printf("out of memory\n");
-        exit(0);
-    }
-    return x;
+    printf("enter 1st km,m\n");
+    scanf("%d%d",&d1.km,&d1.m);
+    printf("enter 2st km,m\n");
+    scanf("%d%d",&d2.km,&d2.m);
+    d3=add(&d1,&d2);
+    printf("The sum is: %d km %d m\n",d3.km,d3.m);
+    d4=sub(&d1,&d2);
+    printf("The difference is: %d km %d m\n",d4.km,d4.m);
 }
-NODE insertrear(int item,NODE first)
+Distance add(Distance *d1,Distance *d2)
 {
-    NODE temp,cur;
-    temp=getnode();
-    temp->info=item;
-    temp->link=NULL;
-    if(first==NULL)
+    Distance sum,t;
+    sum.m=d1->m+d2->m;
+    sum.km=d1->km+d2->km;
+    while(sum.m>=1000)
     {
-        return temp;
+        t.m=sum.m;
+        sum.m=sum.m%1000;
+        t.m=t.m/1000;
+        sum.km+=t.m;
     }
-    cur=first;
-    while(cur->link!=NULL)
-    {
-        cur=cur->link;
-    }
-    cur->link=temp;
-    return first;
+    return sum;
 }
-NODE deleteitem(NODE first,int item)
+Distance sub(Distance *d1,Distance *d2)
 {
-    NODE pre,cur;
-    if(first==NULL)
+    Distance diff;
+    if(d1->km>d2->km)
     {
-        printf("list is empty\n");
-        return first;
+     diff.m=d1->m-d2->m;
+     diff.km=d1->km-d2->km;
     }
-    pre=NULL;
-    cur=first;
-    while(cur!=NULL && item!=cur->info)
+    else
     {
-        pre=cur;
-        cur=cur->link;
+        diff.m=d2->m-d1->m;
+        diff.km=d2->km-d1->km;
     }
-    if(cur==NULL)
+    if(diff.m<0)
     {
-        printf("the item to be deleted not found in list\n");
-        return first;
+        diff.m=diff.m+1000;
+        diff.km+=1;
     }
-    pre->link=cur->link;
-    free(cur);
-    return first;
-}
-void display(NODE first)
-{
-    NODE temp;
-    if(first==NULL)
-    {
-        printf("list is empty\n");
-        return ;
-    }
-    printf("the content of list ");
-    temp=first;
-    while(temp!=NULL)
-    {
-        printf("%d ",temp->info);
-        temp=temp->link;
-
-    }
-    printf("\n");
-}
-int main()
-{
-    NODE first=NULL;
-    int choice,item,n,i;
-    for(;;)
-    {
-        printf("1:create list 2:delete specified item\n");
-        printf("3:display 4:exit\n");
-        printf("enter choice\n");
-        scanf("%d",&choice);
-        switch(choice)
-        {
-            case 1:printf("enter the no. of nodes to create list\n");
-            scanf("%d",&n);
-            for(i=0;i<n;i++)
-            {
-                printf("enter the item %d to be inserted\n",i);
-                scanf("%d",&item);
-                first=insertrear(item,first);
-            }
-            break;
-            case 2:printf("enter the item to be deleted\n");
-            scanf("%d",&item);
-            first=deleteitem(first,item);
-            break;
-            case 3:display(first);
-            break;
-            case 4:printf("exit\n");
-                exit(0);
-                break;
-            default:printf("invalid choice\n");
-                exit(0);
-
-        }
-    }
-    return 0;   
+    return diff;
 }
