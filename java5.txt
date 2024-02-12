@@ -1,0 +1,49 @@
+class Mytime {
+    private int hour,minute;
+    Mytime(int hr,int min)
+    {
+        settime(hr,min);
+    }
+    void settime(int hr,int min)
+    {
+        minute=min;
+        hour=hr;
+    }
+    public void gethour()
+    {
+        System.out.println("current hour="+hour);
+    }
+    public void getminute()
+    {
+        System.out.println("current minute="+minute);
+    }
+    public void nexthour()
+    {
+        hour++;
+        if(hour>=24)
+            hour=hour%24;
+        System.out.println("next hour="+hour);
+    }
+    public void nextminute()
+    {
+        minute++;
+        if(minute>=60)
+        {
+            hour+=minute/60;
+            minute=minute%60;
+        }
+        if(hour>=24)
+            hour=hour%24;
+        System.out.println("next minute="+minute);
+    }
+}
+class Testmytime
+{
+    public static void main(String[] args) {
+        Mytime t1=new Mytime(23, 59);
+        t1.gethour();
+        t1.getminute();
+        t1.nextminute();
+        t1.nexthour();
+    }
+}
