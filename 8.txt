@@ -1,54 +1,143 @@
-runge kutta method
-milne's predictor and corrector method
-
-
-from sympy import * 
-import numpy as np 
-def RungeKutta (g,x0 ,h,y0 ,xn): 
-    x,y= symbols ('x,y') 
-    f= lambdify ([x,y],g) 
-    print('Result by RK4 method:') 
-    print ('y( %3.3f'%x0,') = %3.3f '%y0) 
-    xt=x0+h 
-    Y=[y0] 
-    while xt<=xn: 
-        k1=h*f(x0 ,y0) 
-        k2=h*f(x0+h/2, y0+k1/2) 
-        k3=h*f(x0+h/2, y0+k2/2) 
-        k4=h*f(x0+h, y0+k3) 
-        y1=y0+(1/6)*(k1+2*k2+2*k3+k4) 
-        Y. append (y1) 
-        print ('y( %3.6f'%xt,') = %3.6f '%y1) 
-        x0=xt 
-        y0=y1 
-        xt=xt+h 
-    return np. round (Y,2) 
-RungeKutta ('1+y/x',1,0.2,2,2)
-
-
-
-
-
-x0=1 
-y0=2 
-y1=2.2156 
-y2=2.4649 
-y3=2.7514 
-h=0.1 
-x1=x0+h 
-x2=x1+h 
-x3=x2+h 
-x4=x3+h 
-def f(x,y): 
-   return x ** 2+(y/2) 
-y10 =f(x0 , y0) 
-y11 =f(x1 ,y1) 
-y12 =f(x2 ,y2) 
-y13 =f(x3 ,y3) 
-y4p =y0+(4*h/3)*(2*y11-y12+2*y13) 
-print ('Predicted value of y4 is %3.3f '% y4p) 
-y14 =f(x4 ,y4p ); 
-for i in range (1,4): 
-   y4=y2+(h/3)*(y14 +4*y13 +y12 ); 
-   print('Corrected value of y4 after \t iteration %d is \t %3.5f\t'%(i,y4)) 
-   y14=f(x4 ,y4);
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<conio.h> 
+ 
+#define QS 5 
+ 
+/*Structure declaration for a node*/ 
+struct node 
+{ 
+ char info[10]; 
+ struct node *link; 
+}; 
+ 
+typedef struct node *NODE; 
+ 
+ 
+/*function to allocate memory for a node*/ 
+NODE getnode(void) 
+{ 
+  NODE x; 
+  x=(NODE)malloc(sizeof(struct node)); 
+  if(x==NULL) 
+  { 
+   printf("\nOut of memory"); 
+   exit(0); 
+  } 
+  return x; 
+} 
+ 
+ 
+/*function to insert a node at the rear end of SLL as a queue*/ 
+NODE insert_rear(char item[10],NODE first,int *r)  
+{ 
+  NODE temp,cur; 
+  if(*r==QS-1) 
+  { 
+      printf("\n Queue is Full! insertion not possible\n"); 
+      return first; 
+  } 
+  temp=getnode(); 
+Implement a menu driven Program for the following operations on QUEUES of Strings 
+using Linked list 
+(i) Insert an Element into Queue 
+(ii) Delete an Element from Queue 
+(iii) Display the contents of Queue 
+  strcpy(temp->info,item); 
+  temp->link=NULL; 
+   
+  if(*r==-1) 
+  { 
+      *r=*r+1; 
+      printf("r=%d",*r); 
+      first=temp; 
+   return first; 
+  } 
+  else 
+    { 
+        *r=*r+1; 
+     cur=first; 
+      while(cur->link!=NULL)  
+     { 
+       cur=cur->link; 
+      } 
+    } 
+  cur->link=temp; 
+  return first;  
+} 
+ 
+/*function to delete a node from the front end of SLL as a queue*/ 
+NODE delete_front(NODE first, int *f, int *r) 
+{ 
+    NODE temp; 
+    if(*f>*r) 
+    { 
+        printf("\n Queue is Empty! deletion not possible\n"); 
+        *f=0; 
+        *r=-1; 
+      return first; 
+    } 
+    temp=first; 
+    first=first->link; 
+    printf("The node with info [ %s ] is deleted from the front end",temp->info); 
+    (*f)++; 
+    free(temp); 
+     
+    return first; 
+} 
+ 
+/*function to display contents of the SLL as a queue*/ 
+void display(NODE first, int f, int r) 
+{ 
+ NODE temp; 
+ int i; 
+  if(f>r) 
+  { 
+   printf("\nList is empty"); 
+   return; 
+  } 
+  printf("\nThe contents of the list:"); 
+  temp=first; 
+  for(i=f;i<=r;i++) 
+  { 
+   printf("%s\n",temp->info); 
+   temp=temp->link; 
+  } 
+  printf("\n"); 
+} 
+ 
+int main() 
+{ 
+ NODE first=NULL; 
+ int choice,f=0,r=-1; 
+ char item[10]; 
+ //clrscr(); 
+ do 
+ { 
+  printf("\n************************"); 
+  printf("\n 1: Queue_Insert\n 2: Queue_delete\n 3: Queue_Display\n 4:Exit\n"); 
+  printf("\n************************"); 
+  printf("\nEnter the choice:"); 
+  scanf("%d",&choice); 
+  switch(choice) 
+  { 
+   case 1:  
+printf("\nEnter the item to be inserted into the List(string data):"); 
+        scanf("%s",item); 
+        first=insert_rear(item,first,&r); 
+     break; 
+ 
+   case 2:  
+first=delete_front(first,&f,&r); 
+                      break; 
+ 
+   case 3:  
+display(first,f,r); 
+        break; 
+ 
+  } 
+ }while(choice!=4); 
+ getch(); 
+ return 0; 
+} 
