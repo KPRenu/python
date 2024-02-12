@@ -1,75 +1,79 @@
-#include<stdio.h>
-#include<conio.h>
-#include<stdlib.h>
-int findmaxelement(int arr[],int size)
-{
-    int static i=0,max=-999;
-    if(i<size)
-    {
-        if(max<arr[i])
-        {
-            max=arr[i];
-        }
-        i++;
-        findmaxelement(arr,size);
-    }
-    return max;
-}
-int gcd(int m,int n)
-{
-    if(n==0)
-        return m;
-    if(m<n)
-        return gcd(n,m);    
-    return gcd(n,m%n);
-}
-void tower(int n,char scr,char aux,char dest)
-{
-    if(n==1)
-    {
-        printf("move disk %d from peg %c to peg %c \n",n,scr,dest);
-        return ;
-    }
-    tower(n-1,scr,dest,aux);
-    printf("move disk %d from peg %c to peg %c \n",n,scr,dest);
-    tower(n-1,aux,scr,dest);
-}
-void main()
-{
-    int arr[20];
-    int i,n,m,res,num,ch,max;
-    for(;;)
-    {
-        printf("1:find max element\n");
-        printf("2:multiplication of two natural numbers\n");
-        printf("3:tower of hanoi\n");
-        printf("4:exit\n");
-        printf("enter your choice\n");
-        scanf("%d",&ch);
-        switch(ch)
-        {
-            case 1:printf("enter the size of array\n");
-            scanf("%d",&n);
-            printf("enter %d element of an array\n",n);
-            for(i=0;i<n;i++)
-            {
-                scanf("%d",&arr[i]);
-            }
-            max=findmaxelement(arr,n);
-            printf("maximum element in the array is %d\n",max);
-            break;
-            case 2:printf("enter the gcd of two number \n");
-            scanf("%d%d",&m,&n);
-            res=gcd(m,n);
-            printf("gcd of two no. %d and %d is %d\n",m,n,res);
-            break;
-            case 3:printf("enter the number of disks \n");
-            scanf("%d",&num);
-            printf("the sequence of moves are\n");
-            tower(num,'S','T','D');
-            break;
-            default:
-                exit(0);
-        }
-    }
-}
+ 
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<conio.h> 
+#define MAX 5 
+   
+/*function to push an element into stack*/ 
+void push(int item,int s[],int *top) 
+{ 
+    if(*top==MAX-1) 
+    { 
+        printf("stack overflow\n"); 
+        return; 
+    } 
+    (*top)++; 
+    s[*top]=item; 
+    printf("\t\t%d is succesfully inserted\n", item); 
+} 
+ 
+/*function to pop an element from the stack*/ 
+void pop(int s[],int *top) 
+{ 
+    if(*top==-1) 
+    { 
+        printf("stack is empty\n"); 
+        return; 
+    } 
+    printf("\t\t%d element is deleted",s[*top]); 
+    (*top)--; 
+} 
+ 
+/*function to display the contents of the stack*/ 
+void display(int s[],int top) 
+{ 
+    int i; 
+    if(top!=-1) 
+    { 
+        printf("stack contains :\n"); 
+        for (i=0;i<=top;i++) 
+        printf("%d\n", s[i]); 
+    } 
+    else 
+        printf("stack is empty\n"); 
+Implement a menu driven Program for the following operations on STACK of Integers 
+(Array Implementation of Stack with maximum size MAX)  
+(i) Push an Element on to Stack (Handle the situation of overflow) 
+(ii) Pop an Element from Stack (Handle the situation of underflow) 
+(iii) Display the contents of Stack 
+} 
+ 
+void main() 
+{ 
+    int choice,item,s[MAX],top=-1; 
+    for(;;) 
+    { 
+        printf("\n*****************");     
+        printf("\n1.push \n  2.pop\n  3.display\n  4.exit\n"); 
+        printf("\n*****************");   
+        printf("\nEnter your choice:"); 
+        scanf("%d",&choice); 
+        switch(choice) 
+        { 
+            case 1:  
+printf("\nEnter an item to be inserted:"); 
+                     scanf("%d",&item); 
+                     push(item,s,&top); 
+                     break; 
+            case 2:  
+pop(s,&top); 
+                     break; 
+            case 3:  
+display(s,top); 
+                     break; 
+            default: 
+printf("\ninvaild choice\n"); 
+                     exit(0); 
+        } 
+    } 
+} 
