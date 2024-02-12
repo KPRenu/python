@@ -1,76 +1,229 @@
-#include<stdio.h>
-#include<conio.h>
-#include<string.h>
-#include<ctype.h>
-int top=-1;
-int g(char symb)
-{
-    switch(symb)
-    {
-        case '+':
-        case '-': return 1;
-        case '*':
-        case '%':
-        case '/': return 3;
-        case '^':
-        case '$': return 6;
-        case '(': return 9;
-        case ')': return 0;
-        default: return 7; 
-
-    }
-}
-int f(char symb)
-{
-    switch(symb)
-    {
-        case '+':
-        case '-': return 2;
-        case '*':
-        case '%':
-        case '/': return 4;
-        case '^':
-        case '$': return 5;
-        case '(': return 0;
-        case '#': return -1;
-        default: return 8; 
-
-    }
-}
-void infixpostfix(char inf[],char post[])
-{
-    int i,j=0;
-    char symb;
-    char s[30];
-    s[++top]='#';
-    for(i=0;i<strlen(inf);i++)
-    {
-        symb=inf[i];
-        while(f(s[top])>g(symb))
-        {
-            post[j++]=s[top--];
-        }
-        if(f(s[top])!=g(symb))
-        {
-            s[++top]=symb;
-        }
-        else{
-            top--;
-        }
-    }
-    while (s[top]!='#')
-    {
-        post[j++]=s[top--];
-    }
-    post[j]='\0';
-    printf("express in post fix format is :\n");
-    printf("%s",post);
-    return ;
-}
-void main()
-{
-    char inf[30],post[30];
-    printf("enter an expression in infix format:\n");
-    scanf("%s",inf);
-    infixpostfix(inf,post);
-}
+#include <stdio.h> 
+#include <stdlib.h> 
+ 
+/*Structure Declaration*/ 
+struct node 
+{ 
+    int BOOK_ID; 
+    char BOOK_TITLE[20]; 
+    char AUTHOR[30]; 
+    char EDITION[3]; 
+    struct node *llink; 
+    struct node *rlink; 
+}; 
+typedef struct node *NODE; 
+ 
+/*function to allocate memory for a node*/ 
+NODE getnode(void) 
+{ 
+    NODE x; 
+    x=(NODE)malloc(sizeof(struct node)); 
+    if(x==NULL) 
+    { 
+        printf("Out of memory..\n"); 
+        exit(0); 
+    } 
+    return x; 
+} 
+ 
+/*function to insert a node into DLL at the rear-end*/ 
+NODE insert_rear(NODE first) 
+{ 
+    NODE temp,cur; 
+    temp=getnode(); 
+    //temp->rlink=temp->llink=NULL; 
+    printf("\nEnter the BOOK_ID:"); 
+    scanf("%d",&temp->BOOK_ID); 
+    printf("\nEnter the BOOK_TITLE:"); 
+    scanf("%s",temp->BOOK_TITLE); 
+    printf("\nEnter the AUTHOR:"); 
+Implement a menu driven Program for the following operations on Doubly Linked List 
+(DLL) of  Library Data with the fields: BOOK_ID, BOOK_TITLE, AUTHOR, 
+EDITION  
+(i) Create a DLL of ‘N’ books (Insert front/rear). 
+(ii) Count the number of nodes in the DLL. 
+(iii) Delete the node at front/rear. 
+(iv) Display the contents of DLL. 
+    scanf("%s",temp->AUTHOR); 
+    printf("\nEnter the EDITION:"); 
+    scanf("%s",temp->EDITION); 
+    temp->rlink=temp->llink=NULL; 
+     
+    if(first==NULL) 
+    { 
+        first=temp; 
+        return first; 
+    } 
+     
+    cur=first; 
+    while(cur->rlink!=NULL) 
+    { 
+        cur=cur->rlink; 
+    } 
+     
+    cur->rlink=temp; 
+    temp->llink=cur; 
+     
+    return first; 
+} 
+ 
+/*function to insert a node into DLL at the front-end*/ 
+NODE insert_front(NODE first) 
+{ 
+    NODE temp,cur; 
+    temp=getnode(); 
+    //temp->rlink=temp->llink=NULL; 
+    printf("\nEnter the BOOK_ID:"); 
+    scanf("%d",&temp->BOOK_ID); 
+    printf("\nEnter the BOOK_TITLE:"); 
+    scanf("%s",temp->BOOK_TITLE); 
+    printf("\nEnter the AUTHOR:"); 
+    scanf("%s",temp->AUTHOR); 
+    printf("\nEnter the EDITION:"); 
+    scanf("%s",temp->EDITION); 
+    temp->rlink=temp->llink=NULL; 
+     
+    if(first==NULL) 
+    { 
+        first=temp; 
+        return first; 
+    } 
+     
+    temp->rlink=first; 
+    first->llink=temp; 
+    
+    return temp; 
+} 
+   
+/*function to count the number of nodes in a DLL*/ 
+NODE count_nodes(NODE first) 
+{ 
+    int count=0; 
+    NODE cur; 
+    if(first==NULL) 
+    { 
+        printf("\nList is Empty\n"); 
+        return NULL; 
+    } 
+     
+    cur=first; 
+    while(cur!=NULL) 
+    { 
+        count++; 
+        cur=cur->rlink; 
+    } 
+     
+    printf("\nThe no. of nodes in the list = %d\n",count); 
+    return first; 
+} 
+ 
+/*function to delete a node from the rear-end in a DLL*/ 
+NODE del_rear(NODE first) 
+{ 
+    NODE cur,prev; 
+     
+    if(first==NULL) 
+    { 
+        printf("\nList is Empty\n"); 
+        return NULL; 
+    } 
+     
+    prev=NULL; 
+    cur=first; 
+    while(cur->rlink!=NULL) 
+    { 
+        prev=cur; 
+        cur=cur->rlink; 
+    } 
+    printf("\n The node with the following information is Deleted:"); 
+    printf("\nBOOK_ID:%d",cur->BOOK_ID); 
+    printf("\nBOOK_TITLE:%s",cur->BOOK_TITLE); 
+    printf("\nAUTHOR:%s",cur->AUTHOR); 
+    printf("\nEDITION:%s",cur->EDITION); 
+    free(cur); 
+     
+    prev->rlink=NULL; 
+     
+    return first; 
+} 
+ 
+/*function to delete a node from the front-end in a DLL*/ 
+NODE del_front(NODE first) 
+{ 
+    NODE cur; 
+     
+    if(first==NULL) 
+    { 
+        printf("\nList is Empty\n"); 
+        return NULL; 
+    } 
+     
+    cur=first; 
+    first=first->rlink; 
+    printf("\n The node with the following information is Deleted:"); 
+    printf("\nBOOK_ID:%d",cur->BOOK_ID); 
+    printf("\nBOOK_TITLE:%s",cur->BOOK_TITLE); 
+    printf("\nAUTHOR:%s",cur->AUTHOR); 
+    printf("\nEDITION:%s",cur->EDITION); 
+    free(cur); 
+     
+    first->llink=NULL; 
+     
+    return first; 
+} 
+ 
+/*function to display the node information in a DLL*/ 
+void display(NODE first) 
+{ 
+    NODE temp; 
+    if(first==NULL) 
+    { 
+        printf("\nDList is Empty...\n"); 
+        return; 
+         
+    } 
+    printf("\nThe contents of the DList are:\n"); 
+    for(temp=first;temp!=NULL;temp=temp->rlink) 
+    { 
+        printf("BOOK_ID=%d\n",temp->BOOK_ID); 
+        printf("BOOK_TITLE=%s\n",temp->BOOK_TITLE); 
+        printf("AUTHOR=%s\n",temp->AUTHOR); 
+        printf("EDITION=%s\n",temp->EDITION); 
+        printf("\n"); 
+    } 
+} 
+ 
+ 
+void main() 
+{ 
+    NODE first=NULL; 
+    int choice; 
+    //clrscr(); 
+     
+    for(;;) 
+    { 
+        printf("\n*********OPERATIONS ON DLL*****************\n"); 
+        printf("1:Insert-rear\n2:Insert-front\n3.Count the nodes in the List\n"); 
+        printf("4:Delete-rear\n5:Delete-front\n6:Display\n7:Exit\n"); 
+         printf("********************************************\n"); 
+        printf("Enter your choice:"); 
+        scanf("%d",&choice); 
+        switch(choice) 
+        { 
+            case 1: first=insert_rear(first); 
+                    break; 
+            case 2: first=insert_front(first); 
+                    break; 
+            case 3: first=count_nodes(first); 
+                    break; 
+            case 4: first=del_rear(first); 
+                    break; 
+            case 5: first=del_front(first); 
+                    break; 
+            case 6: display(first); 
+                    break; 
+            default:printf("Invalid choice...\n"); 
+                    exit(0); 
+        } 
+    } 
+} 
