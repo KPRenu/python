@@ -1,33 +1,76 @@
- from sympy . vector import * 
-from sympy import symbols 
-N= CoordSys3D ('N') # Setting the coordinate system 
-x,y,z= symbols ('x y z') 
-A=N.x ** 2*N.y+2*N.x*N.z-4  
-delop =Del () #Del operator 
-display ( delop (A)) #Del operator applied to A 
-gradA = gradient (A) # Gradient function is used 
-print (f"\n Gradient of {A} is \n") 
-display ( gradA )
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#include<ctype.h>
+int top=-1;
+int g(char symb)
+{
+    switch(symb)
+    {
+        case '+':
+        case '-': return 1;
+        case '*':
+        case '%':
+        case '/': return 3;
+        case '^':
+        case '$': return 6;
+        case '(': return 9;
+        case ')': return 0;
+        default: return 7; 
 
+    }
+}
+int f(char symb)
+{
+    switch(symb)
+    {
+        case '+':
+        case '-': return 2;
+        case '*':
+        case '%':
+        case '/': return 4;
+        case '^':
+        case '$': return 5;
+        case '(': return 0;
+        case '#': return -1;
+        default: return 8; 
 
-
-from sympy . vector import * 
-from sympy import symbols 
-N= CoordSys3D ('N') 
-x,y,z= symbols ('x y z') 
-A=N.x ** 2*N.y*N.z*N.i+N.y ** 2*N.z*N.x*N.j+N.z ** 2*N.x*N.y*N.k 
-delop =Del () 
-divA = delop . dot (A) 
-display ( divA ) 
-print (f"\n Divergence of {A} is \n") 
-display ( divergence (A))
-
-
-
-from sympy import * 
-var ('x,y') 
-p=x+2*y 
-q=x-2*y 
-f= diff (q,x)- diff (p,y) 
-soln = integrate (f,[x,0,1],[y,0,1])
-print ("I=",soln ) 
+    }
+}
+void infixpostfix(char inf[],char post[])
+{
+    int i,j=0;
+    char symb;
+    char s[30];
+    s[++top]='#';
+    for(i=0;i<strlen(inf);i++)
+    {
+        symb=inf[i];
+        while(f(s[top])>g(symb))
+        {
+            post[j++]=s[top--];
+        }
+        if(f(s[top])!=g(symb))
+        {
+            s[++top]=symb;
+        }
+        else{
+            top--;
+        }
+    }
+    while (s[top]!='#')
+    {
+        post[j++]=s[top--];
+    }
+    post[j]='\0';
+    printf("express in post fix format is :\n");
+    printf("%s",post);
+    return ;
+}
+void main()
+{
+    char inf[30],post[30];
+    printf("enter an expression in infix format:\n");
+    scanf("%s",inf);
+    infixpostfix(inf,post);
+}
