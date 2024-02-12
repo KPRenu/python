@@ -1,0 +1,52 @@
+import java.util.Random;
+
+class Square implements Runnable {
+    int x;
+    Thread t;
+
+    Square(int n) {
+        x = n;
+        t = new Thread(this);
+        t.start();
+    }
+
+    public void run() {
+        int sq = x * x;
+        System.out.println("square of " + x + "=" + sq);
+    }
+}
+
+class Cube extends Thread {
+    int x;
+
+    Cube(int d) {
+        super();
+        x = d;
+        start();
+    }
+
+    public void run() {
+        System.out.println("cube of " + x + "=" + (x * x * x));
+    }
+}
+
+public class MultiThread {
+    public static void main(String[] args) {
+        Random randnum = new Random();
+
+        for (int i = 1; i <= 10; i++) {
+            int randomNum = randnum.nextInt(100);
+            System.out.println("generate random no. is " + randomNum);
+            if (randomNum % 2 == 0) {
+                Square s = new Square(randomNum);
+            } else {
+                Cube c = new Cube(randomNum);
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+    }
+}
