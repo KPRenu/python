@@ -1,0 +1,81 @@
+import java.util.*;
+interface Encryption
+{
+    public static final String message="pesce mandya2";
+    void encrypt();
+}
+class Nextchar implements Encryption
+{
+    public void encrypt()
+    {
+        int i;
+        char ch,c[]=new char [15];
+        System.out.println("given string :"+message);
+        for(i=0;i<message.length();i++)
+        {
+            ch=message.charAt(i);
+            if(ch=='z')
+            {
+                ch='a';
+            }
+            else if(ch=='Z')
+            {
+                ch='A';
+            }
+            else if((ch==' ')|| (ch>'o')&&(ch<='g'))
+            {
+                ch=ch;
+            }
+            else
+            {
+                ch++;
+                c[i]=ch;
+            }
+        }
+        String s=new String(c);
+        System.out.println("converted string "+s);
+    }
+}
+class Prechar implements Encryption
+{
+    public void encrypt()
+    {
+        int i;
+        char ch,c[]=new char [15];
+        System.out.println("given string :"+message);
+        for(i=0;i<message.length();i++)
+        {
+            ch=message.charAt(i);
+            if(ch=='z')
+            {
+                ch='a';
+            }
+            else if(ch=='Z')
+            {
+                ch='A';
+            }
+            else if(ch==' ')
+            {
+                ch=ch;
+            }
+            else
+            {
+                ch--;
+                c[i]=ch;
+            }
+        }
+        String s=new String(c);
+        System.out.println("converted string "+s);
+
+    }
+}
+public class MainInter
+{
+    public static void main(String[] args) {
+        
+    Nextchar n1=new Nextchar();
+    n1.encrypt();
+    Prechar n2=new Prechar();
+    n2.encrypt();
+    }
+}
