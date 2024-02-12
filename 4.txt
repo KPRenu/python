@@ -1,117 +1,201 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<conio.h>
-struct node
-{
-    int info;
-    struct node*link;
-};
-typedef struct node*NODE;
-NODE getnode(void)
-{
-    NODE x;
-    x=(NODE)malloc(sizeof(struct node));
-    if(x==NULL)
-    {
-        printf("out of memory\n");
-        exit(0);
-    }
-    return x;
-}
-NODE insertrear(int item,NODE first)
-{
-    NODE temp,cur;
-    temp=getnode();
-    temp->info=item;
-    temp->link=NULL;
-    if(first==NULL)
-    {
-        return temp;
-    }
-    cur=first;
-    while(cur->link!=NULL)
-    {
-        cur=cur->link;
-    }
-    cur->link=temp;
-    return first;
-}
-NODE deleteitem(NODE first,int item)
-{
-    NODE pre,cur;
-    if(first==NULL)
-    {
-        printf("list is empty\n");
-        return first;
-    }
-    pre=NULL;
-    cur=first;
-    while(cur!=NULL && item!=cur->info)
-    {
-        pre=cur;
-        cur=cur->link;
-    }
-    if(cur==NULL)
-    {
-        printf("the item to be deleted not found in list\n");
-        return first;
-    }
-    pre->link=cur->link;
-    free(cur);
-    return first;
-}
-void display(NODE first)
-{
-    NODE temp;
-    if(first==NULL)
-    {
-        printf("list is empty\n");
-        return ;
-    }
-    printf("the content of list ");
-    temp=first;
-    while(temp!=NULL)
-    {
-        printf("%d ",temp->info);
-        temp=temp->link;
-
-    }
-    printf("\n");
-}
-int main()
-{
-    NODE first=NULL;
-    int choice,item,n,i;
-    for(;;)
-    {
-        printf("1:create list 2:delete specified item\n");
-        printf("3:display 4:exit\n");
-        printf("enter choice\n");
-        scanf("%d",&choice);
-        switch(choice)
-        {
-            case 1:printf("enter the no. of nodes to create list\n");
-            scanf("%d",&n);
-            for(i=1;i<n;i++)
-            {
-                printf("enter the item %d to be inserted\n",i);
-                scanf("%d",&item);
-                first=insertrear(item,first);
-            }
-            break;
-            case 2:printf("enter the item to be deleted\n");
-            scanf("%d",&item);
-            first=deleteitem(first,item);
-            break;
-            case 3:display(first);
-            break;
-            case 4:printf("exit\n");
-                exit(0);
-                break;
-            default:printf("invalid choice\n");
-                exit(0);
-
-        }
-    }
-    return 0;   
+#include <stdio.h> 
+#include<stdlib.h> 
+#include<string.h> 
+ 
+/*Stucture declaration for a node*/ 
+struct node 
+{ 
+ char info[10]; 
+ struct node *link; 
+}; 
+ 
+typedef struct node  *NODE; 
+ 
+ 
+/*function to allocate memory for a node*/ 
+NODE getnode(void) 
+{ 
+  NODE x; 
+  x=(NODE)malloc(sizeof(struct node)); 
+  if(x==NULL) 
+  { 
+   printf("\n\t\tOut of memory"); 
+   exit(0); 
+  } 
+  return x; 
+} 
+ 
+/*function to insert a node at the front end in a CLL*/ 
+NODE insert_front(NODE last, char str[10]) 
+{ 
+    NODE temp; 
+    temp=getnode(); 
+    strcpy(temp->info,str); 
+    temp->link=temp; 
+     
+    if(last==NULL) 
+Implement a menu driven Program for the following operations on Circular Linked 
+List. 
+    { 
+        return temp; 
+    } 
+    else 
+        temp->link=last->link; 
+         
+    last->link=temp; 
+    return last; 
+} 
+ 
+/*function to insert a node at the rear end in a CLL*/ 
+NODE insert_rear(NODE last, char str[10]) 
+{ 
+    NODE temp; 
+    temp=getnode(); 
+    strcpy(temp->info,str); 
+    temp->link=temp; 
+     
+    if(last==NULL) 
+    { 
+        return temp; 
+    } 
+    else 
+        temp->link=last->link; 
+         
+    last->link=temp; 
+    return temp; 
+} 
+    
+/*function to delete the a node from the rear end in a CLL*/ 
+NODE delete_front(NODE last) 
+{ 
+    NODE temp; 
+    if(last==NULL) 
+    { 
+        printf("\nList is empty\n"); 
+        return last; 
+    } 
+    if(last->link==last) 
+    { 
+        printf("\n \t\tThe node with info %s is deleted\n",last->info); 
+        free(last); 
+        return NULL; 
+    } 
+    temp=last->link; 
+    last->link=temp->link; 
+    printf("\n \t\tThe node with info %s is deleted\n",temp->info); 
+    free(temp); 
+    return last; 
+} 
+ 
+/*function to delete the a node from the front end in a CLL*/ 
+NODE delete_rear(NODE last) 
+{ 
+    NODE temp; 
+    if(last==NULL) 
+    { 
+        printf("\nList is empty\n"); 
+        return last; 
+    } 
+    if(last->link==last) 
+    { 
+        printf("\n \t\tThe node with info %s is deleted\n",last->info); 
+        free(last); 
+        return NULL; 
+    } 
+    temp=last->link; 
+    while(temp->link!=last) 
+    { 
+        temp=temp->link; 
+    }  
+    temp->link=last->link; 
+    printf("\n \t\tThe node with info %s is deleted\n",last->info); 
+    free(last); 
+    return temp; 
+}   
+ 
+/*function to count the number of nodes in a CLL*/ 
+void count_nodes(NODE last) 
+{ 
+    int count=0; 
+    NODE cur; 
+    if(last==NULL) 
+    { 
+        printf("\n\t\tList is Empty\n"); 
+        return; 
+    } 
+     
+    cur=last->link; 
+    while(cur!=last) 
+    { 
+        count++; 
+        cur=cur->link; 
+    } 
+    count++; 
+    printf("\n\t\tThe no. of nodes in the list = %d\n",count); 
+     
+} 
+ 
+/*function to display the contents of CLL*/ 
+void display(NODE last) 
+{ 
+    NODE cur; 
+    if(last==NULL) 
+    { 
+        printf("\n\t\tList is Empty\n"); 
+        return; 
+    } 
+     
+    cur=last->link; 
+    while(cur!=last) 
+    { 
+        printf("%s\n",cur->info); 
+        cur=cur->link; 
+    } 
+    printf("%s\n",cur->info); 
+} 
+ 
+ 
+void main() 
+{ 
+    NODE last=NULL; 
+    int choice; 
+    char str[20]; 
+     for(;;) 
+    { 
+        printf("************OPERATIONS ON CLL****************\n"); 
+        printf("1:Insert Front\n2:Insert Rear\n3:Delete Front\n4:Delete Rear\n"); 
+        printf("5:Count the nodes in the List\n6:Display\n7:Exit\n"); 
+         printf("********************************************\n"); 
+        printf("Enter the choice:"); 
+        scanf("%d",&choice); 
+        switch(choice) 
+        { 
+            case 1:  
+printf("\nEnter the string data:"); 
+                     scanf("%s",str); 
+                     last=insert_front(last,str); 
+                     break; 
+            case 2: 
+ printf("\nEnter the string data:"); 
+                     scanf("%s",str); 
+                     last=insert_rear(last,str); 
+                     break; 
+            case 3:  
+last=delete_front(last); 
+                     break; 
+            case 4:  
+last=delete_rear(last); 
+                     break; 
+            case 5:  
+count_nodes(last); 
+                     break; 
+            case 6:  
+display(last); 
+                     break; 
+            default: 
+printf("Invalid choice...\n"); 
+                     exit(0); 
+        } 
+    } 
+ 
 }
