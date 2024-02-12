@@ -1,0 +1,104 @@
+import java.util.*;
+
+class Circle {
+    double radius;
+    String color;
+
+    Circle(double radius) {
+        this.radius = 1.0;
+        this.color = "blue";
+    }
+
+    Circle(double radius, String color2) {
+        this.radius = radius;
+        this.color = color2;
+    }
+
+    public Circle() {
+        //TODO Auto-generated constructor stub
+    }
+
+    double getarea() {
+        return Math.PI * radius * radius;
+    }
+
+    double getradius() {
+        return radius;
+    }
+
+    String getcolor() {
+        return color;
+    }
+}
+
+class Cylinder extends Circle {
+    double height;
+
+    double getheight() {
+        return height;
+    }
+
+    Cylinder() {
+        super();
+        height = 2.0;
+    }
+
+    Cylinder(double height) {
+        super();
+        this.height = height;
+    }
+
+    Cylinder(double height, double radius) {
+        super(radius);
+        this.height = height;
+    }
+
+    Cylinder(double height, double radius, String color) {
+        super(radius, color);
+        this.height = height;
+    }
+
+    double getarea() {
+        return ((2 * Math.PI * radius * height) + 2 * Math.PI * radius * radius);
+    }
+
+    double getvolume() {
+        return (super.getarea() * height);
+    }
+
+    void display() {
+        System.out.println("radius is  " + super.radius + " height is  " + height + " color is  " + super.color
+                + " area is  " + getarea() + " volume is  " + getvolume());
+    }
+
+    void check(Cylinder c1, Cylinder c2, int i, int j) {
+        if ((c1.radius == c2.radius) && (c1.height == c2.height) && (c1.color.equals(c2.color)))
+            System.out.println("the cylinder " + (i + 1) + " and " + (j + 1) + " are similar");
+    }
+}
+
+public class MainCc {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        Cylinder[] c = new Cylinder[4];
+        int i;
+        c[0] = new Cylinder();
+        c[1] = new Cylinder(3.0);
+        c[2] = new Cylinder(3.0, 4.0, "green");
+        System.out.println("enter the details of cylinder4 (height, radius, color)");
+        double h = s.nextDouble();
+        double r = s.nextDouble();
+        String st = s.next(); // use next() instead of nextLine()
+        c[3] = new Cylinder(h, r, st);
+        for (i = 0; i < 4; i++) {
+            System.out.println("the dimension of cylinder " + (i + 1) + " is");
+            c[i].display();
+        }
+        for (i = 0; i < 4; i++) {
+            int j;
+            for (j = 0; j < 4; j++) {
+                c[i].check(c[i], c[j], i, j);
+            }
+        }
+    }
+}
