@@ -1,0 +1,139 @@
+ 
+#include<stdio.h> 
+#include<conio.h> 
+#include<stdlib.h> 
+ 
+/*Stucture declaration*/ 
+struct node 
+{ 
+int data; 
+int priority; 
+struct node *link; 
+}; 
+ 
+typedef struct node *NODE; 
+ 
+/*function to allocate memory for a node*/ 
+NODE getnode(void) 
+{ 
+  NODE x; 
+  x=(NODE)malloc(sizeof(struct node)); 
+  if(x==NULL) 
+  { 
+   printf("\nOut of memory"); 
+   exit(0); 
+  } 
+  return x; 
+} 
+ 
+ 
+ 
+/*function to insert a node based on priority*/ 
+NODE insert_priority(NODE first) 
+{ 
+    int val, pri; 
+    NODE temp,cur,prev; 
+    printf("\n Enter the value:"); 
+    scanf("%d", &val); 
+    printf("\n Enter the priority:"); 
+    scanf("%d", &pri); 
+    temp=getnode(); 
+    temp->data=val; 
+Implement a menu driven program to perform the following operations on priority 
+queue using linked list. 
+(i) Insert a node based on priority. 
+(ii) Delete a node from the queue  
+(iii) Display the contents of the queue 
+ 
+    temp->priority= pri; 
+    temp->link=NULL; 
+    if(first==NULL || pri < first->priority ) 
+ { 
+     temp->link = first; 
+     first = temp; 
+     return first; 
+ } 
+ prev=NULL; 
+ cur = first; 
+ //next= cur->link; 
+ while(cur!=NULL && cur->priority<=pri) 
+ { 
+     prev=cur; 
+     cur = cur->link; 
+ } 
+ if(cur==NULL) 
+ { 
+     prev->link=temp; 
+     return first; 
+ } 
+ temp->link = cur; 
+ prev->link = temp; 
+ 
+ return first; 
+} 
+ 
+ 
+/*function to delete a node from the front end of the priority queue*/ 
+NODE delete(NODE first) 
+{ 
+    NODE temp; 
+    if(first == NULL) 
+ { 
+     printf("\n QUEUE UNDERFLOW" ); 
+     return NULL; 
+ } 
+ temp = first; 
+ printf("\n Deleted item is: %d", temp->data); 
+ first = first->link; 
+ free(temp); 
+    return first; 
+} 
+ 
+ 
+/*function to display the contents of priority queue*/ 
+void display(NODE first) 
+{ 
+    NODE temp; 
+    temp = first; 
+    if(first == NULL) 
+ { 
+     printf("\nQUEUE IS EMPTY" ); 
+     return; 
+ } 
+ printf("\n THE CONTENTS OF PRIORITY QUEUE IS : " ); 
+ while(temp != NULL) 
+ { 
+  printf( "\n%d [priority=%d]", temp->data, temp->priority ); 
+  temp=temp->link; 
+ } 
+  
+} 
+ 
+void main() 
+{ 
+    NODE first=NULL; 
+    int option; 
+    //clrscr(); 
+    do 
+    { 
+        printf("\n *****MAIN MENU*****"); 
+        printf("\n 1. INSERT"); 
+        printf("\n 2. DELETE"); 
+        printf("\n 3. DISPLAY"); 
+        printf("\n 4. EXIT"); 
+        printf("\n Enter your option : "); 
+        scanf( "%d", &option); 
+        switch(option) 
+        { 
+            case 1: 
+                 first=insert(first); 
+                 break; 
+            case 2: 
+                 first = delete(first); 
+                 break; 
+            case 3: 
+                 display(first); 
+                 break; 
+        } 
+    }while(option!=4); 
+}
