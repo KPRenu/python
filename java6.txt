@@ -1,0 +1,154 @@
+import java.util.*;
+class Account {
+    int accountnum,min=500;
+    String name;
+    float r,oprice;
+    Scanner sc=new Scanner(System.in);
+    public void getinfo()
+    {
+        System.out.println("enter name:");
+        name=sc.nextLine();
+        System.out.println("enter account number:");
+        accountnum=sc.nextInt();
+        System.out.println("enter opening account>500:");
+        oprice=sc.nextFloat();
+        if(oprice<500)
+        {
+            System.out.println("enter opening account>500:");
+        }
+    }  
+    public void show()
+    {
+        System.out.println("name:"+name);
+        System.out.println("account no. :"+accountnum);
+        System.out.println("amount :"+oprice);
+    }
+}
+class current extends Account
+{
+    float deposit,withdraw,penality;
+    public void deposit()
+    {
+        System.out.println("enter amount to deposit:");
+        deposit=sc.nextFloat();
+        show();
+        oprice=oprice+deposit;
+        System.out.println("total amount is : "+oprice);
+    }
+    public void checkbal()
+    {
+        if(oprice<min)
+        {
+            System.out.println("amount should be >500:");
+            oprice-=100;
+            System.out.println("you have debited amount 100 from your account, balance is:"+oprice);
+        }
+    }
+    public void withdrawbal()
+    {
+        System.out.println("enter amount to withdraw:");
+        withdraw=sc.nextFloat();
+        show();
+        if(withdraw<=oprice)
+        {
+            oprice-=withdraw;
+            System.out.println("after withdrawal balance is : "+oprice);
+        }
+        else
+        {
+            System.out.println("insufficient balance !>500");
+        }
+        checkbal();
+    }
+}
+class saving extends Account
+{
+    float deposit,withdraw;
+    public void deposit()
+    {
+        System.out.println("enter amoubt to deposit:");
+        deposit=sc.nextFloat();
+        show();
+        oprice=oprice+deposit;
+        System.out.println("total amount is : "+oprice);
+    }
+    public void checkintrest()
+    {
+        r=(oprice*2)/100;
+        oprice+=r;
+        System.out.println("total amount with interest is :"+oprice);
+    }
+    public void withdrawbal()
+    {
+        System.out.println("enter amount to withdraw:");
+        withdraw=sc.nextFloat();
+        show();
+        if(withdraw<=oprice)
+        {
+            oprice-=withdraw;
+            System.out.println("after withdrawal balance is : "+oprice);
+        }
+        else
+        {
+            System.out.println("insufficient balance !>500");
+        }
+    }
+}
+public class Account2
+{
+    static String ch;
+    public static void main(String[] args) {
+        int count=0;
+        Scanner in=new Scanner(System.in);
+        current cu=new current();
+        saving sav=new saving();
+        System.out.println("choose account type");
+        System.out.println("press c for current account:");
+        System.out.println("press s for saving account:");
+        ch=in.nextLine();
+        if(ch.equalsIgnoreCase("c"))
+        {
+            cu.getinfo();
+            cu.checkbal();
+            while(count!=4)
+            {
+                System.out.println("1.display  2.deposit  3.withdraw  4.exit");
+                System.out.println("enter your choice");
+                int ch=in.nextInt();
+                switch(ch)
+                {
+                    case 1:cu.show();  break;
+                    case 2:cu.deposit();  break;
+                    case 3:cu.withdrawbal();  break;
+                    case 4:System.exit(0);  break;
+                    default:System.out.println("wrong choice!");
+                }
+            }
+
+        }
+        else if(ch.equalsIgnoreCase("s"))
+        {
+            sav.getinfo();
+            while(count!=5)
+            {
+                System.out.println("1.display  2.deposit  3.withdraw  4.intrest  5.exit");
+                System.out.println("enter your choice");
+                int ch=in.nextInt();
+                switch(ch)
+                {
+                    case 1:sav.show();  break;
+                    case 2:sav.deposit();  break;
+                    case 3:sav.withdrawbal();  break;
+                    case 4:sav.checkintrest(); break;
+                    case 5:System.exit(0);  break;
+                    default:System.out.println("wrong choice!");
+                }
+            }
+        }
+        else
+        {
+            System.out.println("wrong choice!");
+        }
+    }
+}
+
