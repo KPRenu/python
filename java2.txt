@@ -1,0 +1,42 @@
+import java.util.*;
+import java.lang.Math;
+public class Evaluate_series {
+    public static void main(String[] args) {
+        int ch;
+        float sum;
+        Scanner sc = new Scanner(System.in);
+        while(true)
+        {
+            System.out.println("1.evaluate series 1  2.evaluate series 2  3.exit");
+            System.out.println("enter a choice");
+            ch=sc.nextInt();
+            switch (ch){
+                case 1:int n;
+                float a,b;
+                System.out.println("enter value for a,b,n");
+                a=sc.nextInt();
+                b=sc.nextInt();
+                n=sc.nextInt();
+                sum=a;
+                for(int i=2;i<=n;i++)
+                {
+                    sum=sum+(i*a)/b;
+                }
+                System.out.println("sum of series 1="+sum);
+                break;
+                case 2:int m;
+                System.out.println("enter value of m");
+                m=sc.nextInt();
+                sum=12;
+                for(int i=1;i<=m;i++)
+                {
+                    sum=(float) (sum+(1/Math.pow(2,i)));
+                }
+                System.out.println("sum of series 2="+sum);
+                break;
+                default :System.exit(0);
+            }
+
+        }
+    }
+}
