@@ -1,63 +1,103 @@
-import numpy as np     
-from numpy import array 
-def taylor (deriv ,x,y,xStop ,h): 
-   X = [] 
-   Y = [] 
-   X. append (x) 
-   Y. append (y) 
-   while x < xStop : 
-       D = deriv (x,y) 
-       H = 1.0 
-       for j in range (3):  
-          H = H*h/(j + 1) 
-          y = y + D[j]*H  
-          x = x + h 
-          X. append (x)  
-          Y. append (y)  
-   return array (X),array (Y) 
-
-def deriv (x,y): 
-   D = np.zeros((4,1)) 
-   D[0] = [2*y[0] + 3*np.exp(x)] 
-   D[1] = [4*y[0]+ 9*np.exp(x)] 
-   D[2] = [8*y[0]+ 21*np.exp(x)] 
-   D[3] = [16*y[0]+ 45*np.exp(x)] 
-   return D 
-x = 0.0 
-xStop = 0.3 
-y = array ([0.0]) 
-h = 0.1 
-X,Y = taylor (deriv ,x,y,xStop ,h) 
-print ("The required values by Taylor's method are :\n at x= %0.2f , y=%0.5f,\n at x=%0.2f , y=%0.5f,\n at x = %0.2f, y=%0.5f ,\n at  x = %0.2f, y=%0.5f." %(X[0],Y[0],X[1],Y[1],X[2],Y[2],X[3],Y[3] ))
-
-
-
-
-import numpy as np 
-import matplotlib . pyplot as plt 
-def modified_euler (f, x0 , y0 , h, n): 
-   x = np. zeros (n+1) 
-   y = np. zeros (n+1) 
-   x[0] = x0 
-   y[0] = y0 
-   for i in range (n): 
-       x[i+1] = x[i] + h 
-       k1 = h * f(x[i], y[i]) 
-       k2 = h * f(x[i+1], y[i] + k1) 
-       y[i+1] = y[i] + 0.5 * (k1 + k2) 
-   return x, y
  
-def f(x, y): 
-    return x**2+y  
-x0 = 0.0 
-y0 = 1.0 
-h = 0.05 
-n = 2 
-x, y = modified_euler (f, x0 , y0 , h, n) 
-print ("The required values by Modified Euler's method are :\n at x= %0.2f , y=%0.5f,\n at x= %0.2f , y=%0.5f,\n at x=%0.2f , y=%0.5f" %(x[0],y[0],x[1],y[ 1],x[2],y[2])) 
-plt . plot (x, y, 'bo-') 
-plt . xlabel ('x') 
-plt . ylabel ('y') 
-plt . title ('Solution of dy/dx = x^2+y using Modified Euler \'s Method ') 
-plt . grid ( True )
-plt . show()
+#include<stdio.h> 
+#include<conio.h> 
+#include<stdlib.h> 
+ 
+/* Function to find maximum amongst n elements */ 
+int findMaxElement(int arr[],int size) 
+{ 
+    int static i=0, max=-999; 
+    if(i<size) 
+    { 
+        if(max<arr[i]) 
+        { 
+            max=arr[i]; 
+        } 
+        i++; 
+        findMaxElement(arr,size); 
+    } 
+        return max; 
+} 
+ 
+/* Function to find product of two natural numbers */ 
+int product(int a,int b) 
+{ 
+    if(a<b) 
+    { 
+        return product(b,a); 
+    } 
+    else if(b!=0) 
+    { 
+        return (a+product(a,b-1)); 
+    } 
+    else 
+    return 0; 
+} 
+ 
+/* Function definition for Tower_of_hanoi */ 
+void tower(int n,char src,char aux,char dest) 
+{ 
+    if(n==1) 
+    { 
+        printf("Move disk %d from peg %c to peg %c",n,src,dest); 
+        return; 
+Implement the following using recursion: 
+(i) Tower_of_Hanoi 
+(ii) GCD of two numbers 
+(iii) Largest of ‘n’ numbers 
+ 
+    } 
+    tower((n-1),src,dest,aux); 
+    printf("\nMove disk %d from peg %c to peg %c\n",n,src,dest); 
+    tower((n-1),aux,src,dest); 
+} 
+ 
+ 
+void main() 
+{ 
+    int arr[20]; 
+    int i,n,max; 
+    int a,b,res; 
+    int num,ch; 
+    //clrscr(); 
+    for(;;) 
+    { 
+ 
+        printf(" \n******************************************\n"); 
+        printf(" 1 : find Max Element\n"); 
+        printf(" 2 : Multiplication of two natural numbers\n"); 
+        printf(" 3 : Tower of Hanoi\n"); 
+        printf(" 4 : Exit:Any other choice : \n"); 
+        printf(" ******************************************\n"); 
+        printf("Enter your choice\n"); 
+        scanf("%d",&ch); 
+        switch(ch) 
+        { 
+            case 1:  
+printf("Enter the size of the array\n"); 
+                     scanf("%d",&n); 
+                     printf("Enter %d elements of an array\n",n); 
+                     for(i=0;i<n;i++) 
+                     { 
+                          scanf("%d",&arr[i]); 
+                     } 
+                     max=findMaxElement(arr,n); 
+                     printf("Maximum element in the array is %d\n",max); 
+                     break; 
+            case 2:  
+printf("Enter two numbers to find their product:\n"); 
+                     scanf("%d%d",&a,&b); 
+                     res=product(a,b); 
+                     printf("Product of %d and %d is %d\n",a,b,res); 
+                     break; 
+            case 3:  
+printf("Enter the number of disks :\n"); 
+                     scanf("%d",&num); 
+                     printf("The sequence of moves involved in the Tower of Hanoi are:\n"); 
+                     tower(num,'S','T','D'); 
+                     break; 
+            default: 
+exit(0); 
+        } 
+    } 
+}
