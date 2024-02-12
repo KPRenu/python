@@ -1,66 +1,134 @@
-#include<stdio.h>
-#include<stdlib.h>
-#define MAX 5
-void main()
-{
-    int choice,item,s[MAX],top=-1;
-    for(;;)
-    {
-        printf(" 1.push 2.pop 3.display 4.exit\n");
-        printf("enter your choice\n");
-        scanf("%d",&choice);
-        switch(choice)
-        {
-            case 1:printf("enter the element to be inserted\n");
-            scanf("%d",&item);
-            push(item,s,&top);
-            break;
-            case 2:pop(s,&top); 
-            break;
-            case 3:display(s,top);
-            break;
-            case 4:printf("exit\n");
-                    exit(0);
-                    break;
-            default:printf("invalid choice\n");
-            exit(0);        
-        }
-    }
-    getch();
-}
-void push(int item,int s[],int *top)
-{
-    if(*top==MAX-1)
-    {
-        printf("stack overflow\n");
-        return;
-    }
-    (*top)++;
-    s[*top]=item;
-    printf("%d is successfully inserted\n",item);
-}
-void pop(int s[],int *top)
-{
-    if(*top==-1)
-    {
-        printf("stack underflow\n");
-        return;
-    }
-    printf("%d is successfully deleted\n",s[*top]);
-    (*top)--;
-
-}
-void display(int s[],int top)
-{
-    int i;
-    if(top==-1)
-    {
-        printf("stack is empty\n");
-        return ;
-    }
-    else{
-        printf("stack contains:\n");
-        for(i=0;i<=top;i++)
-            printf("%d\n",s[i]);
-    }
+ 
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<conio.h> 
+ 
+/*Structure declaration for a node*/ 
+struct node 
+{ 
+ int info; 
+ struct node *link; 
+}; 
+ 
+typedef struct node *NODE; 
+ 
+ 
+/*function to allocate memory for a node*/ 
+NODE getnode(void) 
+{ 
+  NODE x; 
+  x=(NODE)malloc(sizeof(struct node)); 
+  if(x==NULL) 
+  { 
+   printf("\nOut of memory"); 
+   exit(0); 
+  } 
+  return x; 
+} 
+ 
+ 
+/*function to insert a node at the rear end in SLL*/ 
+NODE insert_rear(int item,NODE first)  
+{ 
+  NODE temp,cur; 
+  temp=getnode(); 
+  temp->info=item; 
+  temp->link=NULL; 
+  if(first==NULL) 
+   return temp; 
+ cur=first; 
+  while(cur->link!=NULL)  
+ { 
+   cur=cur->link; 
+  } 
+  cur->link=temp; 
+  return first;  
+} 
+ 
+ 
+/*function to delete a node whose is specified in SLL */ 
+NODE delete_item(NODE first, int item) 
+{ 
+ NODE prev, cur; 
+ if(first==NULL) 
+ { 
+  printf("\n List is Empty"); 
+  return first; 
+ } 
+ /*Search for the item specified in each node*/ 
+ prev=NULL; 
+ cur=first; 
+ while(cur!=NULL && item!=cur->info) 
+ { 
+  prev=cur; 
+  cur=cur->link; 
+ } 
+ if(cur==NULL) 
+ { 
+  printf("\n The item to be deleted is not found in the list"); 
+  return first; 
+ } 
+  
+ /*delete the node*/ 
+ prev->link=cur->link; 
+ free(cur); 
+ return first; 
+} 
+ 
+ 
+/*function to display contents of the SLL*/ 
+void display(NODE first) 
+{ 
+ NODE temp; 
+  if(first==NULL) 
+  { 
+   printf("\nList is empty"); 
+   return; 
+  } 
+  printf("\nThe contents of the list:"); 
+  temp=first; 
+  while(temp!=NULL) 
+  { 
+   printf("%d\t",temp->info); 
+   temp=temp->link; 
+  } 
+  printf("\n"); 
+} 
+ 
+ 
+ 
+int main() 
+{ 
+ NODE first=NULL; 
+ int choice,item,n,i; 
+ //clrscr(); 
+ do 
+ { 
+  printf("\n 1: Create List\n 2: Delete specified item\n 3: Display\n 4: Exit\n"); 
+  printf("\nEnter the choice:"); 
+  scanf("%d",&choice); 
+  switch(choice) 
+  { 
+   case 1: printf("\nEnter the no. of nodes to create List:"); 
+        scanf("%d",&n); 
+        for(i=1;i<=n;i++) 
+        { 
+            printf("\nEnter the item %d to be inserted:",i); 
+         scanf("%d",&item); 
+         first=insert_rear(item,first); 
+        } 
+        break; 
+ 
+   case 2: printf("\nEnter the item to be deleted:"); 
+     scanf("%d",&item); 
+           first=delete_item(first,item); 
+                       break; 
+ 
+   case 3: display(first); 
+        break; 
+ 
+  } 
+ }while(choice!=4); 
+ getch(); 
+ return 0; 
 }
