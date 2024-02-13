@@ -1,81 +1,72 @@
-import java.util.*;
-interface Encryption
+interface Encryption 
 {
-    public static final String message="pesce mandya2";
-    void encrypt();
+	public static final String message="a pes mandya2";
+	void encrypt();
 }
+
 class Nextchar implements Encryption
 {
-    public void encrypt()
-    {
-        int i;
-        char ch,c[]=new char [15];
-        System.out.println("given string :"+message);
-        for(i=0;i<message.length();i++)
-        {
-            ch=message.charAt(i);
-            if(ch=='z')
-            {
-                ch='a';
-            }
-            else if(ch=='Z')
-            {
-                ch='A';
-            }
-            else if((ch==' ')|| (ch>'o')&&(ch<='g'))
-            {
-                ch=ch;
-            }
-            else
-            {
-                ch++;
-                c[i]=ch;
-            }
-        }
-        String s=new String(c);
-        System.out.println("converted string "+s);
-    }
+	public void encrypt()
+	{
+		int i;
+		char ch,c[]=new char[15];
+		System.out.println("given string: "+message);
+		for (i=0;i<message.length();i++)
+		{
+			ch=message.charAt(i);
+			if(ch=='z')
+				ch='a';
+			else
+				if(ch=='Z')
+					ch='A';
+				else
+					if((ch==' ' )||(ch>='0')&&(ch<='9')) {
+					 ch=ch;
+					} else
+						ch++;
+			c[i]=ch;
+		}
+		String s=new String(c);
+		System.out.println("converted string:"+s);
+	}
 }
-class Prechar implements Encryption
-{
-    public void encrypt()
-    {
-        int i;
-        char ch,c[]=new char [15];
-        System.out.println("given string :"+message);
-        for(i=0;i<message.length();i++)
-        {
-            ch=message.charAt(i);
-            if(ch=='z')
-            {
-                ch='a';
-            }
-            else if(ch=='Z')
-            {
-                ch='A';
-            }
-            else if(ch==' ')
-            {
-                ch=ch;
-            }
-            else
-            {
-                ch--;
-                c[i]=ch;
-            }
-        }
-        String s=new String(c);
-        System.out.println("converted string "+s);
 
-    }
-}
-public class MainInter
+class prevchar implements Encryption
 {
-    public static void main(String[] args) {
-        
-    Nextchar n1=new Nextchar();
-    n1.encrypt();
-    Prechar n2=new Prechar();
-    n2.encrypt();
-    }
+	public void encrypt()
+	{
+		int i;
+		char ch,c[]=new char[15];
+		System.out.println("given string: "+message);
+		for(i=0;i<message.length();i++)
+		{
+			ch=message.charAt(i);
+			if(ch=='a')
+				ch='z';
+			else
+				if(ch=='A')
+					ch='Z';
+				else
+					if((ch==' ' )||(ch>='0')&&(ch<='9'))
+						ch=ch;
+					else
+						ch--;
+			c[i]=ch;
+		}
+		String s=new String(c);
+		System.out.println("converted string: "+s);
+	}
 }
+
+class MainInter
+{
+	public static void main(String args[])
+	{
+		Nextchar n1=new Nextchar();
+		n1.encrypt();
+		prevchar n2=new prevchar();
+		n2.encrypt();
+	}
+}
+
+
