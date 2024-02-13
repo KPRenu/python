@@ -1,0 +1,104 @@
+package cie;
+
+import java.util.Scanner;
+public class Student 
+{
+	public int sem;
+	public String name;
+	public String USN;
+	
+	public void readStudent()
+	{
+		Scanner sc=new Scanner(System.in);
+		
+		name=sc.next();
+		USN=sc.next();
+		sem=sc.nextInt();
+	}
+}
+
+
+
+package cie;
+import java.util.*;
+public class Internal extends Student 
+{
+
+	public int ciemarks[]=new int[6];
+	public void readCieMarks()
+	{
+		Scanner d1=new Scanner(System.in);
+		for(int i=0;i<6;i++)
+		{
+			ciemarks[i]=d1.nextInt();
+		}
+	}
+}
+
+
+
+package see;
+import cie.*;
+import java.util.*;
+
+public class External extends Internal 
+{
+public int seemarks[]=new int[6];
+public void readSeeMarks()
+{
+	try
+	{
+		Scanner h=new Scanner(System.in);
+		System.out.println("enter the external marks");
+		for(int i=0;i<6;i++)
+		{
+			seemarks[i]=h.nextInt();
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println("an exception is occuring");
+	}
+}
+}
+
+
+package main;
+import cie.*;
+import see.*;
+import java.util.*;
+
+public class Result
+{
+	public static void main (String args[])
+	{
+		int n;
+		
+		Scanner g=new Scanner(System.in);
+		System.out.println("\nenter the number of students");
+		n=g.nextInt();
+		External s[]=new External[n];
+		int totalmarks[]=new int[6];
+		for(int j=0;j<n;j++)
+		{
+			System.out.println("\nenter the students"+(j+1)+"details");
+			
+			s[j]=new External();
+			System.out.println("enter name,USN and sem");
+			s[j].readStudent(); 
+			System.out.println("enter cie marks for 6 subjects");
+			s[j].readCieMarks();
+			System.out.println("enter see marks for 6 subjects");
+			s[j].readSeeMarks();
+			for (int i=0;i<6;i++)
+			{
+				totalmarks[i]=s[j].ciemarks[i]+s[j].seemarks[i];
+			}
+			System.out.println("total marks of"+s[j].name+"in 6subjects");
+			for (int i=0;i<6;i++)
+			{
+				System.out.println(" "+totalmarks[i]+" ");
+			}
+		}
+	}
+}
