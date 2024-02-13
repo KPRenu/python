@@ -1,0 +1,90 @@
+
+import java.util.Scanner;
+public class Exception 
+{
+	public static void main(String args[])
+	{
+		Scanner ip=new Scanner(System.in);
+		while(true)
+		{
+			System.out.println("1.ArithmeticException"+" 2.ArrayIndexOutOfBoundsException"+ "3.NumberFormatException"+ "4.StringIndexOutOfBoundsException"+"5.NullPointerException");
+			System.out.println("enter a choice");
+			int ch=ip.nextInt();
+			switch(ch)
+			{
+			case 1:
+				System.out.println("enter a number:");
+				int x=ip.nextInt();
+				 try 
+				 		{  
+			        	   double y=1010/x;
+			        	   System.out.println("Result:"+y);
+			           }
+			           catch(ArithmeticException e) 
+			           { 
+				            System.out.println ("Can't divide a number by 0"); 
+			           }
+				 
+			           break;
+			           
+			case 2:
+				int a[]= {10,20,30,40};
+				System.out.println("enter a index value");
+				int p=ip.nextInt();
+				try
+				{
+					a[p]=400;
+					System.out.println("new value is");
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					System.out.println("Array index out of bond");
+				}
+				break;
+			case 3:
+				String str;
+				System.out.println("Enter a string");
+				str=ip.next();
+				try
+				{
+					int num=Integer.parseInt(str);
+					System.out.println("member="+num);
+				}
+				catch(NumberFormatException e)
+				{
+					System.out.println("np");
+				}
+				break;
+			
+			case 4:
+				String s="PESCE";
+				System.out.println("enter the position");
+				int i=ip.nextInt();
+				try
+				{
+					System.out.println("character at the position"+i+"is"+s.charAt(i));
+				}
+				catch(StringIndexOutOfBoundsException e)
+				{
+					System.out.println("s");
+				}
+				break;
+			case 5:
+				try
+				{
+					String name=null;
+					System.out.println(name.charAt(0));
+				}
+				catch(NullPointerException e)
+				{
+					System.out.println("np");
+				}
+				break;
+		        default:System.exit(0);
+		    }
+	    }
+	}
+}
+
+
+
