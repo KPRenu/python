@@ -3,19 +3,18 @@ import java.util.*;
 class Circle {
     double radius;
     String color;
-
-    Circle(double radius) {
+    Circle() {
         this.radius = 1.0;
+        this.color = "blue";
+    }
+    Circle(double radius) {
+        this.radius = radius;
         this.color = "blue";
     }
 
     Circle(double radius, String color2) {
         this.radius = radius;
         this.color = color2;
-    }
-
-    public Circle() {
-        //TODO Auto-generated constructor stub
     }
 
     double getarea() {
@@ -88,7 +87,7 @@ public class MainCc {
         System.out.println("enter the details of cylinder4 (height, radius, color)");
         double h = s.nextDouble();
         double r = s.nextDouble();
-        String st = s.next(); // use next() instead of nextLine()
+        String st = s.next(); 
         c[3] = new Cylinder(h, r, st);
         for (i = 0; i < 4; i++) {
             System.out.println("the dimension of cylinder " + (i + 1) + " is");
