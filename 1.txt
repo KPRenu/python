@@ -1,55 +1,36 @@
-#include<stdio.h>
-#include<conio.h>
-struct distance
+#include <stdio.h>
+#include <conio.h>
+int a[20][20], q[20], visited[20], n, i, j, f = 0, r = -1;
+void bfs(int v)
 {
-    int km,m;
-};
-typedef struct distance Distance;
-Distance add(Distance *,Distance *);
-Distance sub(Distance *,Distance *);
-Distance d1,d2,d3,d4;
+    for (i = 1; i <= n; i++)
+        if (a[v][i] && !visited[i])
+            q[++r] = i;
+    if (f <= r)
+    {
+        visited[q[f]] = 1;
+        bfs(q[f++]);
+    }
+}
 void main()
 {
-    printf("enter 1st km,m\n");
-    scanf("%d%d",&d1.km,&d1.m);
-    printf("enter 2st km,m\n");
-    scanf("%d%d",&d2.km,&d2.m);
-    d3=add(&d1,&d2);
-    printf("The sum is: %d km %d m\n",d3.km,d3.m);
-    d4=sub(&d1,&d2);
-    printf("The difference is: %d km %d m\n",d4.km,d4.m);
-}
-Distance add(Distance *d1,Distance *d2)
-{
-    Distance sum,t;
-    sum.m=d1->m+d2->m;
-    sum.km=d1->km+d2->km;
-    while(sum.m>=1000)
+    int v;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+    for (i = 1; i <= n; i++)
     {
-        t.m=sum.m;
-        sum.m=sum.m%1000;
-        t.m=t.m/1000;
-        sum.km+=t.m;
+        q[i] = 0;
+        visited[i] = 0;
     }
-    return sum;
-}
-Distance sub(Distance *d1,Distance *d2)
-{
-    Distance diff;
-    if(d1->km>d2->km)
-    {
-     diff.m=d1->m-d2->m;
-     diff.km=d1->km-d2->km;
-    }
-    else
-    {
-        diff.m=d2->m-d1->m;
-        diff.km=d2->km-d1->km;
-    }
-    if(diff.m<0)
-    {
-        diff.m=diff.m+1000;
-        diff.km+=1;
-    }
-    return diff;
+    printf("Enter graph data in matrix form:\n");
+    for (i = 1; i <= n; i++)
+        for (j = 1; j <= n; j++)
+            scanf("%d", &a[i][j]);
+    printf("Enter the starting vertex:\n");
+    scanf("%d", &v);
+    bfs(v);
+    printf("The node which are reachable are:\n");
+    for (i = 1; i <= n; i++)
+        if (visited[i])
+            printf("%d ", i);
 }
