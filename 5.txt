@@ -1,79 +1,50 @@
- 
-#include<stdio.h> 
-#include<stdlib.h> 
-#include<conio.h> 
-#define MAX 5 
-   
-/*function to push an element into stack*/ 
-void push(int item,int s[],int *top) 
-{ 
-    if(*top==MAX-1) 
-    { 
-        printf("stack overflow\n"); 
-        return; 
-    } 
-    (*top)++; 
-    s[*top]=item; 
-    printf("\t\t%d is succesfully inserted\n", item); 
-} 
- 
-/*function to pop an element from the stack*/ 
-void pop(int s[],int *top) 
-{ 
-    if(*top==-1) 
-    { 
-        printf("stack is empty\n"); 
-        return; 
-    } 
-    printf("\t\t%d element is deleted",s[*top]); 
-    (*top)--; 
-} 
- 
-/*function to display the contents of the stack*/ 
-void display(int s[],int top) 
-{ 
-    int i; 
-    if(top!=-1) 
-    { 
-        printf("stack contains :\n"); 
-        for (i=0;i<=top;i++) 
-        printf("%d\n", s[i]); 
-    } 
-    else 
-        printf("stack is empty\n"); 
-Implement a menu driven Program for the following operations on STACK of Integers 
-(Array Implementation of Stack with maximum size MAX)  
-(i) Push an Element on to Stack (Handle the situation of overflow) 
-(ii) Pop an Element from Stack (Handle the situation of underflow) 
-(iii) Display the contents of Stack 
-} 
- 
-void main() 
-{ 
-    int choice,item,s[MAX],top=-1; 
-    for(;;) 
-    { 
-        printf("\n*****************");     
-        printf("\n1.push \n  2.pop\n  3.display\n  4.exit\n"); 
-        printf("\n*****************");   
-        printf("\nEnter your choice:"); 
-        scanf("%d",&choice); 
-        switch(choice) 
-        { 
-            case 1:  
-printf("\nEnter an item to be inserted:"); 
-                     scanf("%d",&item); 
-                     push(item,s,&top); 
-                     break; 
-            case 2:  
-pop(s,&top); 
-                     break; 
-            case 3:  
-display(s,top); 
-                     break; 
-            default: 
-printf("\ninvaild choice\n"); 
-                     exit(0); 
-        } 
-    } 
-} 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+void shift_table(char p[], int t[])
+{
+    int i, m;
+    m = strlen(p);
+    for (i = 0; i < 128; i++)
+        t[i] = m;
+    for (i = 0; i <= m - 2; i++)
+    {
+        t[p[i]] = m - i - 1;
+    }
+}
+int horspool_pattern_match(char p[], char t[])
+{
+    int m, n, i, k, s[256];
+    shift_table(p, s);
+    m = strlen(p);
+    n = strlen(t);
+    i = m - 1;
+    while (i <= n - 1)
+    {
+        k = 0;
+        while (k <= m - 1 && t[i - k] == p[m - 1 - k])
+        {
+            k = k + 1;
+        }
+        if (k == m)
+            return i - m + 1;
+        i = i + s[t[i]];
+    }
+    return -1;
+}
+void main()
+{
+    char p[50], t[100];
+    int pos;
+    printf("Enter the text string:\n");
+    scanf("%s", t);
+    printf("Enter the pattern string:\n");
+    scanf("%s", p);
+    pos = horspool_pattern_match(p, t);
+    if (pos == -1)
+    {
+        printf(" Pattern string not found\n");
+        exit(0);
+    }
+    printf("Pattern string found at position %d\n", pos + 1);
+}
