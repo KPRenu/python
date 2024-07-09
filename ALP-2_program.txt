@@ -1,0 +1,250 @@
+Program –7 Write ALP program to convert packed BCD to ASCII.
+/*
+Example-Input:r20=0x48
+     Output: memory location 0x301 = 0x34 and 0x302=0x38
+ */
+.equ packedbcd=0x300
+ .equ ascii1=0x301
+ .equ ascii2=0x302
+
+;initialize stack
+ ldi r16,high(ramend)
+ out sph,r16
+ ldi r16,low(ramend)
+ out spl,r16
+;store packed BCD at location 0x300
+ ldi r20,0x38
+ sts packedbcd,r20
+ call conversion	;call subroutine
+ here:jmp here     
+
+;subroutine
+ Conversion:
+              lds r20,packedbcd	;load packedBCD into R20
+		mov r21,r20
+		ldi r22,0x30
+andi r20,0x0f		;unpack BCD and obtain lowerbyte number
+		add r20,r22		;convert unpacked BCD into ASCII
+		sts ascii1,r20		;store first ASCII value into memory locatio 0x301
+		swap r21		
+		andi r21,0x0f		;unpack BCD and obtain higher byte number
+		add r21,r22		;convert unpacked BCD into ASCII
+		sts ascii2,r21		;store first ASCII value into memory locatio 0x302
+		ret			;return to main program
+
+
+
+
+
+Program – 8 Write ALP program to add 10 bytes of data stored starting from $300. Store the sum in R21 and carry in R22. (Use direct addressing mode).
+/*
+Example: 0x300=10, 0x301=20, 0x302=30, 0x303=40, 0x304=50, 0x305=60, 0x306=70, 0x307=80, 0x308=90 and 0x309=100.(all numbers are in decimal)
+Output: R21=0x26(sum) and R22=2(carry value)
+*/
+.include "m32def.inc"
+ .org 0
+; store 10 bytes of data starting from location 0x300 to 0x309
+Ldi r16,10
+Sts 0X0300,r16
+Ldi r16,20
+Sts 0X0301,r16
+Ldi r16,30
+Sts 0X0302,r16
+Ldi r16,40
+Sts 0X0303,r16
+Ldi r16,50
+Sts 0X0304,r16
+Ldi r16,60
+Sts 0X0305,r16
+Ldi r16,70
+Sts 0X0306,r16
+Ldi r16,80
+Sts 0X0307,r16
+Ldi r16,90
+Sts 0X0308,r16
+Ldi r16,100
+Sts 0X0309,r16
+
+Ldi r21,0
+Ldi r22,0
+;read each byte from location 0x300 to 0x309 and add each value to R21 
+
+Lds r20,0X0300
+Add r21,r20
+Brcc L1
+Inc r22
+ L1:Lds r20,0x0301
+Add r21,r20
+Brcc L2
+Inc r22
+L2: Lds r20,0x0302
+Add r21,r20
+Brcc L3
+Inc r22
+L3: Lds r20,0x0303
+Add r21,r20
+Brcc L4
+Inc r22
+L4: Lds r20,0x304
+Add r21,r20
+Brcc L5
+Inc r22
+L5:Lds r20,0x0305
+Add r21,r20
+Brcc L6
+Inc r22
+L6:Lds r20,0x0306
+Add r21,r20
+Brcc L7
+Inc r22
+L7:Lds r20,0x0307
+Add r21,r20
+Brcc L8
+Inc r22
+L8:Lds r20,0x0308
+Add r21,r20
+Brcc L9
+Inc r22
+L9 Lds r20,0x0309
+Add r21,r20	;R21 will be having the lower byte result.
+Brcc here
+Inc r22		; R22 will have the higher byte(carry) result.
+here: rjmp here
+
+
+
+
+
+Program –9  Write ALP program to count number of odd and even numbers among n bytes of data stored starting from $600 (Use indirect addressing mode).
+/*
+Example-  Input:if n=6, 0x600=2, 0x601=3, 0x602=4, 0x603=7, 0x604=10 and 0x605=12
+Output: R20 = 2 (odd numbers) and R21 = 4 (even numbers)
+Note : n value can be anything
+*/
+.org 0
+ldi r16,6	;counter(n)
+ldi xl, 0X00	;lower byte of address
+ldi xh, 0X06	;higher byte of address
+ldi r20,0	;odd number counter
+ldi r21,0	;even number counter
+
+;store n=6 bytes of data from memory location 0x600 to 0x605
+ldi r17,2
+st x+,r17
+ldi r17,3
+st x+,r17
+ldi r17,4
+st x+,r17
+ldi r17,7
+st x+,r17
+ldi r17,10
+st x+,r17
+ldi r17,12
+st x+,r17
+
+;initialize the register x with address 0x600
+ldi xl, 0X00	;lower byte of address
+ldi xh, 0X06	;higher byte of address
+
+
+;obtain each byte from memory location 0x600 to 0x605
+l1: ld r18,x+
+    ror r18		;obtain the last bit of each byte
+brcs l2			;jump to l2 if the last bit is 1
+inc r21			;increment even counter
+rjmp next
+l2: inc r20		;increment odd counter
+next: dec r16
+brne l1
+here: rjmp here 
+
+
+
+
+
+Program 10. Write C program to blink LED connected to 1st pin of PORTC with appropriate delay.
+
+#define led_pin 8
+void setup() { 
+pinMode(led_pin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(led_pin, HIGH); //turn the led ON
+delay(1000); // wait a second
+digitalWrite(led_pin, LOW); //turn the led OFF
+delay(1000); // wait a second
+}
+
+
+
+
+Program 11. A switch is connected to PORTA. If it is pressed the led should glow. Write C program to perform the above said operation.
+
+#define ledPin 13 // choose the pin for the LED 
+#define switchPin 7 // choose the input pin (for a pushbutton)
+ 
+int val = 0; // variable for reading the pin status
+void setup()
+{
+  pinMode(ledPin, OUTPUT); // declare LED as output
+  pinMode(switchPin, INPUT); // declare pushbutton as input
+}
+void loop()
+{
+  val = digitalRead(switchPin); // read input value
+  if (val == HIGH)
+  { // check if the input is HIGH (button released)
+    digitalWrite(ledPin, LOW); // turn LED OFF
+  } else {
+    digitalWrite(ledPin, HIGH); // turn LED ON } }
+  }
+}
+
+
+
+
+
+Program 12. Write a program to display the given message on LCD.
+
+/*
+LiquidCrystal Library - Hello World
+
+ Demonstrates the use a 16x2 LCD display.  The Liquid Crystal library works with all LCD displays that are compatible with the  Hitachi HD44780 driver. There are many of them out there, and you  can usually tell them by the 16-pin interface.
+
+ This sketch prints "Hello World!" to the LCD  and shows the time.
+
+  The circuit:
+/ * LCD RS pin to digital pin 12
+ * LCD Enable pin to digital pin 11
+ * LCD D4 pin to digital pin 5
+ * LCD D5 pin to digital pin 4
+ * LCD D6 pin to digital pin 3
+ * LCD D7 pin to digital pin 2
+ * LCD R/W pin to ground
+ * LCD VSS pin to ground
+         * LCD VDD pin to 5V
+*/
+
+// include the library code:
+#include <LiquidCrystal.h>
+
+// initialize the library by associating any needed LCD interface pin
+// with the arduino pin number it is connected to
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+void setup() {
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("hello, world!");
+}
+
+void loop() {
+  // set the cursor to column 0, line 1
+  // (note: line 1 is the second row, since counting begins with 0):
+  lcd.setCursor(0, 1);
+  // print the number of seconds since reset:
+  lcd.print(millis() / 1000);
+}
