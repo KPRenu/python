@@ -1,139 +1,92 @@
- 
-#include<stdio.h> 
-#include<conio.h> 
-#include<stdlib.h> 
- 
-/*Stucture declaration*/ 
-struct node 
-{ 
-int data; 
-int priority; 
-struct node *link; 
-}; 
- 
-typedef struct node *NODE; 
- 
-/*function to allocate memory for a node*/ 
-NODE getnode(void) 
-{ 
-  NODE x; 
-  x=(NODE)malloc(sizeof(struct node)); 
-  if(x==NULL) 
-  { 
-   printf("\nOut of memory"); 
-   exit(0); 
-  } 
-  return x; 
-} 
- 
- 
- 
-/*function to insert a node based on priority*/ 
-NODE insert_priority(NODE first) 
-{ 
-    int val, pri; 
-    NODE temp,cur,prev; 
-    printf("\n Enter the value:"); 
-    scanf("%d", &val); 
-    printf("\n Enter the priority:"); 
-    scanf("%d", &pri); 
-    temp=getnode(); 
-    temp->data=val; 
-Implement a menu driven program to perform the following operations on priority 
-queue using linked list. 
-(i) Insert a node based on priority. 
-(ii) Delete a node from the queue  
-(iii) Display the contents of the queue 
- 
-    temp->priority= pri; 
-    temp->link=NULL; 
-    if(first==NULL || pri < first->priority ) 
- { 
-     temp->link = first; 
-     first = temp; 
-     return first; 
- } 
- prev=NULL; 
- cur = first; 
- //next= cur->link; 
- while(cur!=NULL && cur->priority<=pri) 
- { 
-     prev=cur; 
-     cur = cur->link; 
- } 
- if(cur==NULL) 
- { 
-     prev->link=temp; 
-     return first; 
- } 
- temp->link = cur; 
- prev->link = temp; 
- 
- return first; 
-} 
- 
- 
-/*function to delete a node from the front end of the priority queue*/ 
-NODE delete(NODE first) 
-{ 
-    NODE temp; 
-    if(first == NULL) 
- { 
-     printf("\n QUEUE UNDERFLOW" ); 
-     return NULL; 
- } 
- temp = first; 
- printf("\n Deleted item is: %d", temp->data); 
- first = first->link; 
- free(temp); 
-    return first; 
-} 
- 
- 
-/*function to display the contents of priority queue*/ 
-void display(NODE first) 
-{ 
-    NODE temp; 
-    temp = first; 
-    if(first == NULL) 
- { 
-     printf("\nQUEUE IS EMPTY" ); 
-     return; 
- } 
- printf("\n THE CONTENTS OF PRIORITY QUEUE IS : " ); 
- while(temp != NULL) 
- { 
-  printf( "\n%d [priority=%d]", temp->data, temp->priority ); 
-  temp=temp->link; 
- } 
-  
-} 
- 
-void main() 
-{ 
-    NODE first=NULL; 
-    int option; 
-    //clrscr(); 
-    do 
-    { 
-        printf("\n *****MAIN MENU*****"); 
-        printf("\n 1. INSERT"); 
-        printf("\n 2. DELETE"); 
-        printf("\n 3. DISPLAY"); 
-        printf("\n 4. EXIT"); 
-        printf("\n Enter your option : "); 
-        scanf( "%d", &option); 
-        switch(option) 
-        { 
-            case 1: 
-                 first=insert(first); 
-                 break; 
-            case 2: 
-                 first = delete(first); 
-                 break; 
-            case 3: 
-                 display(first); 
-                 break; 
-        } 
-    }while(option!=4); 
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+int cost[10][10], n;
+
+int find(int node, int parent[10])
+{
+    while (parent[node] != node)
+        node = parent[node];
+    return node;
+}
+
+int union_ij(int i, int j, int parent[10])
+{
+    if (i < j)
+        parent[j] = i;
+
+    else
+        parent[i] = j;
+}
+
+void kruskal_mst()
+{
+    int count, i, parent[10], min, u, v, k, t[10][2], sum, j;
+    count = 0, sum = 0, k = 0;
+    for (i = 0; i < n; i++)
+        parent[i] = i;
+
+    while (count < n)
+    {
+        min = 999;
+        for (i = 0; i < n; i++)
+        {
+            for (j = 0; j < n; j++)
+            {
+                if (cost[i][j] < min)
+                {
+                    min = cost[i][j];
+                    u = i;
+                    v = j;
+                }
+            }
+        }
+        if (min == 999)
+            break;
+        i = find(u, parent);
+        j = find(v, parent);
+        if (i != j)
+        {
+            t[k][0] = u;
+            t[k][1] = v;
+            k++;
+            count++;
+
+            sum = sum + min;
+            union_ij(i, j, parent);
+        }
+        cost[u][v] = cost[v][u] = 999;
+    }
+
+    if (count == n - 1)
+    {
+        printf("\nSpanning Tree Exists");
+        printf("\nThe cost of MST = %d", sum);
+        printf("\nSpanning tree is shown below:");
+        for (k = 0; k < n - 1; k++)
+            printf("\n%d-->%d", t[k][0], t[k][1]);
+        return;
+    }
+
+    else
+        printf("\nSpanning tree do not exist");
+}
+
+int main()
+{
+    int i, j;
+    printf("\n\n\tImplementation of Kruskal's algorithm\n\n");
+    printf("\nEnter the no. of vertices\n");
+    scanf("%d", &n);
+    printf("\nEnter the cost adjacency matrix\n");
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            scanf("%d", &cost[i][j]);
+            if (cost[i][j] == 0)
+                cost[i][j] = 999;
+        }
+    }
+    kruskal_mst();
 }
