@@ -1,103 +1,76 @@
- 
-#include<stdio.h> 
-#include<conio.h> 
-#include<stdlib.h> 
- 
-/* Function to find maximum amongst n elements */ 
-int findMaxElement(int arr[],int size) 
-{ 
-    int static i=0, max=-999; 
-    if(i<size) 
-    { 
-        if(max<arr[i]) 
-        { 
-            max=arr[i]; 
-        } 
-        i++; 
-        findMaxElement(arr,size); 
-    } 
-        return max; 
-} 
- 
-/* Function to find product of two natural numbers */ 
-int product(int a,int b) 
-{ 
-    if(a<b) 
-    { 
-        return product(b,a); 
-    } 
-    else if(b!=0) 
-    { 
-        return (a+product(a,b-1)); 
-    } 
-    else 
-    return 0; 
-} 
- 
-/* Function definition for Tower_of_hanoi */ 
-void tower(int n,char src,char aux,char dest) 
-{ 
-    if(n==1) 
-    { 
-        printf("Move disk %d from peg %c to peg %c",n,src,dest); 
-        return; 
-Implement the following using recursion: 
-(i) Tower_of_Hanoi 
-(ii) GCD of two numbers 
-(iii) Largest of ‘n’ numbers 
- 
-    } 
-    tower((n-1),src,dest,aux); 
-    printf("\nMove disk %d from peg %c to peg %c\n",n,src,dest); 
-    tower((n-1),aux,src,dest); 
-} 
- 
- 
-void main() 
-{ 
-    int arr[20]; 
-    int i,n,max; 
-    int a,b,res; 
-    int num,ch; 
-    //clrscr(); 
-    for(;;) 
-    { 
- 
-        printf(" \n******************************************\n"); 
-        printf(" 1 : find Max Element\n"); 
-        printf(" 2 : Multiplication of two natural numbers\n"); 
-        printf(" 3 : Tower of Hanoi\n"); 
-        printf(" 4 : Exit:Any other choice : \n"); 
-        printf(" ******************************************\n"); 
-        printf("Enter your choice\n"); 
-        scanf("%d",&ch); 
-        switch(ch) 
-        { 
-            case 1:  
-printf("Enter the size of the array\n"); 
-                     scanf("%d",&n); 
-                     printf("Enter %d elements of an array\n",n); 
-                     for(i=0;i<n;i++) 
-                     { 
-                          scanf("%d",&arr[i]); 
-                     } 
-                     max=findMaxElement(arr,n); 
-                     printf("Maximum element in the array is %d\n",max); 
-                     break; 
-            case 2:  
-printf("Enter two numbers to find their product:\n"); 
-                     scanf("%d%d",&a,&b); 
-                     res=product(a,b); 
-                     printf("Product of %d and %d is %d\n",a,b,res); 
-                     break; 
-            case 3:  
-printf("Enter the number of disks :\n"); 
-                     scanf("%d",&num); 
-                     printf("The sequence of moves involved in the Tower of Hanoi are:\n"); 
-                     tower(num,'S','T','D'); 
-                     break; 
-            default: 
-exit(0); 
-        } 
-    } 
+#include <stdio.h>
+int max(int a, int b)
+{
+    return a > b ? a : b;
+}
+void knapsack(int n, int w[], int m, int v[][10], int p[])
+{
+    int i, j;
+    for (i = 0; i <= n; i++)
+    {
+        for (j = 0; j <= m; j++)
+        {
+            if (i == 0 || j == 0)
+                v[i][j] = 0;
+            else if (j < w[i])
+                v[i][j] = v[i - 1][j];
+            else
+                v[i][j] = max(v[i - 1][j], v[i - 1][j - w[i]] + p[i]);
+        }
+    }
+}
+void print_optimal_sol(int n, int m, int w[], int v[10][10])
+{
+    int i, j, x[10];
+    printf("\nThe optimal solution is %d:\n", v[n][m]);
+    for (i = 0; i < n; i++)
+        x[i] = 0;
+    i = n; 
+    j = m; 
+    while (i != 0 && j != 0)
+    {
+        if (v[i][j] != v[i - 1][j])
+        {
+            x[i] = 1;
+            j = j - w[i];
+        }
+        i = i - 1;
+    }
+    
+    for (i = 1; i <= n; i++)
+    {
+        printf("x[%d] ", i);
+    }
+    printf("= ");
+    for (i = 1; i <= n; i++)
+    {
+        printf("%d ", x[i]);
+    }
+}
+void main()
+{
+    int m, n, i, j;
+    int p[10];
+    int w[10], v[10][10];
+    printf("Enter the number of objects\n");
+    scanf("%d", &n);
+    printf("Enter the weights of n objects:\n");
+    for (i = 1; i <= n; i++)
+        scanf("%d", &w[i]);
+    printf("Enter the profits of n objects\n");
+    for (i = 1; i <= n; i++)
+        scanf("%d", &p[i]);
+    printf("\nEnter the capacity of knapsack\n");
+    scanf("%d", &m);
+    knapsack(n, w, m, v, p);
+    printf("The output is\n");
+    for (i = 0; i <= n; i++)
+    {
+        for (j = 0; j <= m; j++)
+        {
+            printf("%d ", v[i][j]);
+        }
+        printf("\n");
+    }
+    print_optimal_sol(n, m, w, v);
 }
