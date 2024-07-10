@@ -1,138 +1,46 @@
-#include<stdio.h> 
-#include<conio.h> 
-#include<stdlib.h> 
- 
-int flag; 
- 
-/*structure declaration for a node*/ 
-struct node 
-{ 
-    int info; 
-    struct node *llink,*rlink; 
-}; 
-typedef struct node *NODE; 
- 
- 
-/*function to allocate memory for a node*/ 
-NODE getnode() 
-{ 
-    NODE x; 
-    x=(NODE)malloc(sizeof(struct node)); 
-    if(x==NULL) 
-    { 
-        printf("out of memory\n"); 
-        exit(0); 
-    } 
-return x; 
-} 
- 
- 
-/*function to insert a node into BST*/ 
-NODE insert(NODE root,int item) 
-{ 
-    NODE temp,cur,prev; 
-    temp=getnode(); 
-    temp->info=item; 
-    temp->llink=temp->rlink=NULL; 
-    if(root==NULL) 
-        return temp; 
-    prev =NULL; 
-    cur=root; 
-    while(cur!=NULL) 
-    { 
-Implement a menu driven Program for the following operations on Binary Search Tree 
-(BST) of Integers 
-(i) Create a BST of N Integers 
-(ii) Traverse the BST in Inorder, Preorder and Postorder 
- 
-        prev=cur; 
-        if(item==cur->info) 
-         { 
-            printf("duplicate items are not allowed\n"); 
-            free(temp); 
-            return root; 
-        } 
-        if(item<cur->info) 
-            cur=cur->llink; 
-        else 
-            cur=cur->rlink; 
-    } 
-    if(item<prev->info) 
-        prev->llink=temp; 
-    else 
-        prev->rlink=temp; 
-    return root; 
-} 
- 
- 
-/*function for inorder traversal*/ 
-void in_order(NODE root) 
-{ 
-    if(root!=NULL) 
-    { 
-        in_order(root->llink); 
-        printf("%d\t",root->info); 
-        in_order(root->rlink); 
-    } 
-} 
- 
- 
-/*function for preorder traversal*/ 
-void pre_order(NODE root) 
-{ 
-    if(root!=NULL) 
-    { 
-         printf("%d\t",root->info); 
-         pre_order(root->llink); 
-        pre_order(root->rlink); 
-    } 
-} 
- 
- 
-/*function for postorder traversal*/ 
-void post_order(NODE root) 
-{ 
-    if(root!=NULL) 
-    { 
-        post_order(root->llink); 
-        post_order(root->rlink); 
-        printf("%d\t",root->info); 
-    } 
-} 
- 
- 
-void main() 
-{ 
-    NODE root=NULL; 
-    int ch,item; 
-    //clrscr(); 
-    for(;;) 
-    { 
-        printf("\n1.BST Insertion\n 2.preorder\n 3.inorder\n 4.postorder\n 5.exit\n"); 
-        printf("\nEnter your choice:"); 
-        scanf("%d",&ch); 
-        switch(ch) 
-        { 
-            case 1: 
-                     printf("\nEnter the item to be inserted:"); 
-                     scanf("%d",&item); 
-                     root=insert(root,item); 
-                     break; 
-  
-            case 2: 
-                     printf("pre traversal is\n"); 
-                     pre_order(root); 
-                     break; 
-            case 3: 
-                     printf("in traversal is\n"); 
-                     in_order(root); 
-                     break; 
-            case 4: 
-                     printf("post traversal is\n" ); 
-                     post_order(root); 
-                     break; 
-            default: 
-                     exit(0); 
-        } 
-    } 
-} 
+#include <stdio.h>
+int count = 0;
+int w[10];
+int d;
+int x[10];
+void subset(int cs, int k, int r)
+{
+    int i;
+    x[k] = 1;
+    if (cs + w[k] == d)
+    {
+        printf("\nSubset solution=%d\n", ++count);
+        for (i = 0; i <= k; i++)
+        {
+            if (x[i] == 1)
+                printf("%d ", w[i]);
+        }
+    }
+    else if (cs + w[k] + w[k + 1] <= d)
+        subset(cs + w[k], k + 1, r - w[k]);
+    if ((cs + r - w[k] >= d) && (cs + w[k + 1] <= d))
+    {
+        x[k] = 0;
+        subset(cs, k + 1, r - w[k]);
+    }
+}
+void main()
+{
+    int sum = 0, i, n;
+    printf("\nEnter the number of elements\n");
+    scanf("%d", &n);
+    printf("\nEnter the elements in ascending order:\n");
+    for (i = 0; i < n; i++)
+        scanf("%d", &w[i]);
+    printf("\nEnter the required sum:");
+    scanf("%d", &d);
+    for (i = 0; i < n; i++)
+        sum += w[i];
+    if (sum < d)
+    {
+        printf("\nNo solution exists\n");
+        return;
+    }
+    printf("\nThe solution is:\n");
+    subset(0, 0, sum);
+}
