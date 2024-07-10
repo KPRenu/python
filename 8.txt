@@ -1,143 +1,79 @@
-#include<stdio.h> 
-#include<stdlib.h> 
-#include<string.h> 
-#include<conio.h> 
- 
-#define QS 5 
- 
-/*Structure declaration for a node*/ 
-struct node 
-{ 
- char info[10]; 
- struct node *link; 
-}; 
- 
-typedef struct node *NODE; 
- 
- 
-/*function to allocate memory for a node*/ 
-NODE getnode(void) 
-{ 
-  NODE x; 
-  x=(NODE)malloc(sizeof(struct node)); 
-  if(x==NULL) 
-  { 
-   printf("\nOut of memory"); 
-   exit(0); 
-  } 
-  return x; 
-} 
- 
- 
-/*function to insert a node at the rear end of SLL as a queue*/ 
-NODE insert_rear(char item[10],NODE first,int *r)  
-{ 
-  NODE temp,cur; 
-  if(*r==QS-1) 
-  { 
-      printf("\n Queue is Full! insertion not possible\n"); 
-      return first; 
-  } 
-  temp=getnode(); 
-Implement a menu driven Program for the following operations on QUEUES of Strings 
-using Linked list 
-(i) Insert an Element into Queue 
-(ii) Delete an Element from Queue 
-(iii) Display the contents of Queue 
-  strcpy(temp->info,item); 
-  temp->link=NULL; 
-   
-  if(*r==-1) 
-  { 
-      *r=*r+1; 
-      printf("r=%d",*r); 
-      first=temp; 
-   return first; 
-  } 
-  else 
-    { 
-        *r=*r+1; 
-     cur=first; 
-      while(cur->link!=NULL)  
-     { 
-       cur=cur->link; 
-      } 
-    } 
-  cur->link=temp; 
-  return first;  
-} 
- 
-/*function to delete a node from the front end of SLL as a queue*/ 
-NODE delete_front(NODE first, int *f, int *r) 
-{ 
-    NODE temp; 
-    if(*f>*r) 
-    { 
-        printf("\n Queue is Empty! deletion not possible\n"); 
-        *f=0; 
-        *r=-1; 
-      return first; 
-    } 
-    temp=first; 
-    first=first->link; 
-    printf("The node with info [ %s ] is deleted from the front end",temp->info); 
-    (*f)++; 
-    free(temp); 
-     
-    return first; 
-} 
- 
-/*function to display contents of the SLL as a queue*/ 
-void display(NODE first, int f, int r) 
-{ 
- NODE temp; 
- int i; 
-  if(f>r) 
-  { 
-   printf("\nList is empty"); 
-   return; 
-  } 
-  printf("\nThe contents of the list:"); 
-  temp=first; 
-  for(i=f;i<=r;i++) 
-  { 
-   printf("%s\n",temp->info); 
-   temp=temp->link; 
-  } 
-  printf("\n"); 
-} 
- 
-int main() 
-{ 
- NODE first=NULL; 
- int choice,f=0,r=-1; 
- char item[10]; 
- //clrscr(); 
- do 
- { 
-  printf("\n************************"); 
-  printf("\n 1: Queue_Insert\n 2: Queue_delete\n 3: Queue_Display\n 4:Exit\n"); 
-  printf("\n************************"); 
-  printf("\nEnter the choice:"); 
-  scanf("%d",&choice); 
-  switch(choice) 
-  { 
-   case 1:  
-printf("\nEnter the item to be inserted into the List(string data):"); 
-        scanf("%s",item); 
-        first=insert_rear(item,first,&r); 
-     break; 
- 
-   case 2:  
-first=delete_front(first,&f,&r); 
-                      break; 
- 
-   case 3:  
-display(first,f,r); 
-        break; 
- 
-  } 
- }while(choice!=4); 
- getch(); 
- return 0; 
-} 
+#include <stdio.h>
+#include <stdlib.h>
+
+int cost[10][10], d[10], p[10], n;
+void dij(int source, int dest)
+{
+    int i, j, u, v, min, s[10];
+    for (i = 0; i < n; i++)
+    {
+        d[i] = cost[source][i];
+        s[i] = 0;
+        p[i] = source;
+    }
+    s[source] = 1;
+    for (i = 1; i < n; i++)
+    {
+        min = 999;
+        u = -1;
+        for (j = 1; j < n; j++)
+        {
+            if (d[j] < min && s[j] == 0)
+            {
+                min = d[j];
+                u = j;
+            }
+        }
+        if (u == -1)
+            return;
+        s[u] = 1;
+        if (u == dest)
+            return;
+        for (v = 0; v < n; v++)
+        {
+            if ((d[u] + cost[u][v] < d[v]) && s[v] == 0)
+            {
+                d[v] = d[u] + cost[u][v];
+                p[v] = u;
+            }
+        }
+    }
+}
+
+void print_path(int source)
+{
+    int destination, i;
+    for (destination = 0; destination < n; destination++)
+    {
+        dij(source, destination);
+        if (d[destination] == 999)
+            printf("\n%d is not reachable from %d", destination, source);
+        else
+        {
+            printf("\nThe shortest path from source to every other vertices are:\n");
+            i = destination;
+            while (i != source)
+            {
+                printf("%d<--", i);
+                i = p[i];
+            }
+            printf("%d=%d\n", i, d[destination]);
+        }
+    }
+}
+
+void main()
+{
+    int i, j, source;
+    printf("Enter the number of nodes:\n");
+    scanf("%d", &n);
+    printf("Enter the cost adjacency matrix:\n");
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < n; j++)
+            scanf("%d", &cost[i][j]);
+    }
+    printf("Enter the source vertex:\n");
+    scanf("%d", &source);
+    print_path(source);
+}
