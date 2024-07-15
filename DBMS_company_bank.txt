@@ -1,0 +1,376 @@
+create table Employee (
+    Fname varchar(20), 
+    Minit char, 
+    Lname varchar(20), 
+    Ssn varchar(9), 
+    Bdate datetime, 
+    Address varchar(30), 
+    Sex char, 
+    Salary int, 
+    Super_ssn varchar(15), 
+    Dno int);
+
+insert into Employee values(
+    'John', 
+    'B', 
+    'Smith',
+    '123456789', 
+    '1965-01-09', 
+    '731 Fondren, 
+    Houston TX', 
+    'M', 
+    30000, 
+    333445555, 
+    5
+),( 
+    'Franklin', 
+    'T', 
+    'Wong',
+    '333445555', 
+    '1955-12-08', 
+    '638 Voss, Houston TX', 
+    'M', 
+    40000, 
+    888665555, 
+    5
+),( 
+    'Alicia', 
+    'J', 
+    'Zelaya',
+    '999887777', 
+    '1968-01-19', 
+    '3321 Castle Spring TX', 
+    'F', 
+    25000, 
+    987654321, 
+    4
+),( 
+    'Jennifer', 
+    'S', 
+    'Wallace',
+    '987654321', 
+    '1941-06-20', 
+    '291 Berry, Bellaire TX', 
+    'F', 
+    43000, 
+    888665555, 
+    4
+),( 
+    'Ramesh', 
+    'K', 
+    'Narayan',
+    '666884444', 
+    '1962-09-15', 
+    '975 Fire Oak, Humble TX',
+    'M', 
+    38000, 
+    333445555, 
+    5
+),( 
+    'Joyce', 
+    'A', 
+    'English',
+    '453453453', 
+    '1972-07-31', 
+    '5631 Rice Houston TX', 
+    'F', 
+    25000, 
+    333445555, 
+    5
+),( 
+    'Ahmad', 
+    'V', 
+    'Jabbar',
+    '987987987', 
+    '1969-03-29', 
+    '980 Dallas Houston TX', 
+    'M', 
+    25000, 
+    98654321, 
+    4
+),( 
+    'James', 
+    'E', 
+    'Borg',
+    '888665555', 
+    '1937-11-10', 
+    '540 Stone Houston TX', 
+    'M', 
+    55000, 
+    NULL, 
+    1
+);
+
+
+
+
+
+create table Department(
+    Dname varchar(20),
+    Dnumber int, 
+    Mgr_ssn varchar(10),
+    Mgr_start_date datetime
+);
+
+insert into Department values(
+    'Research',
+    5,
+    '333445555',
+    '1988-05-22'
+),(
+    'Administration',
+    4,
+    '987654321',
+    '1995-0-01'
+),(
+    'HeadQuarters',1,
+    '888665555',
+    '1981-06-19'
+);
+
+
+
+
+
+create table Location(
+    Dnumber int,
+    Dlocation varchar(20)
+);
+
+insert into Location values
+    (1,'Houston'),
+    (4,'Stafford'),
+    (5,'Bellaire'),
+    (5,'Sugarland'),
+    (5,'Houston');
+
+
+
+
+
+create table Project(
+    Pname varchar(20),
+    Pnumber int,
+    Plocation varchar(20),
+    Dnum int
+);
+
+insert into Project values
+    ('ProductX',1,'Bellaire',5),
+    ('ProductY',2,'Sugarland',5),
+    ('ProductZ',3,'Houston',5),
+    ('Computerization',10,'Stafford',4),
+    ('Reorganization',20,'Houston',4),
+    ('Newbenefits',30,'Stafford',4);
+
+
+
+
+
+create table Works_on(
+    Essn varchar(20),
+    Pno int,
+    Hours float
+);
+
+insert into Works_on values
+    ('123456789',1,32.5),
+    ('123456789',2,7.5),
+    ('666884444',3,40.0),
+    ('453453453',1,20.0),
+    ('453453453',2,20.0),
+    ('333445555',2,10.0),
+    ('333445555',3,10.0),
+    ('333445555',10,10.0),
+    ('333445555',20,10.0),
+    ('999887777',30,30.0),
+    ('999887777',10,10.0),
+    ('987987987',10,35.0),
+    ('987987987',30,5.0),
+    ('987654321',20,15.0),
+    ('987654321',20,NULL);
+
+
+
+
+create table Dependent (
+    Essn varchar(10),
+    Dependent_name varchar(10),
+    Sex char,
+    Bdate datetime, 
+    Relationship varchar(10)
+);
+
+insert into Dependent values(
+    '333445555',
+    'Alice',
+    'F',
+    '1986-04-05',
+    'Daughter'
+),(
+    '333445555',
+    'Theodore',
+    'M',
+    '1983-10-25',
+    'Son'
+),(
+    '333445555',
+    'Joy',
+    'F',
+    '1958-05-03',
+    'Spouse'
+),(
+    '987654321',
+    'Abner',
+    'M',
+    '1942-02-28',
+    'Spouse'
+),(
+    '123456789',
+    'Michael',
+    'M',
+    '1988-01-04',
+    'Son'
+),(
+    '123456789',
+    'Alice',
+    'F',
+    '1988-12-30',
+    'Daughter'
+),(
+    '123456789',
+    'Elizabeth',
+    'F',
+    '1967-05-05',
+    'Spouse'
+);
+
+
+
+
+
+-----------------------------------------------------------------------------------------
+
+
+create table branch 
+( 
+branch_name varchar(25) primary key, 
+branch_city varchar(20) not null, 
+assets decimal(10,2) not null 
+); 
+
+insert into branch values('jaynagar','bangalore','15000000'); 
+insert into branch values('basavanagudi','bangalore','25000000'); 
+insert into branch values('noida','delhi','50000000'); 
+insert into branch values('marine drive','mumbai','40000000'); 
+insert into branch values('green park','delhi','30000000'); 
+
+
+create table account 
+( 
+accno int primary key, 
+branch_name varchar(25) not null, 
+balance decimal(10,2) not null, 
+foreign key(branch_name) references branch(branch_name) 
+); 
+
+insert into account values('123','jaynagar','25000'); 
+insert into account values('156','jaynagar','30000'); 
+insert into account values('456','basavanagudi','15000'); 
+insert into account values('789','noida','25000'); 
+insert into account values('478','marine drive','48000'); 
+insert into account values('778','green park','60000'); 
+insert into account values('189','basavanagudi','48888'); 
+
+
+
+
+create table customer 
+( 
+customer_name varchar(25) primary key, 
+customer_street varchar(25) not null, 
+customer_city varchar(25) not null 
+); 
+
+insert into customer values('ramu','jaynagar','bangalore'); 
+insert into customer values('kumar','basavanagudi','bangalore'); 
+insert into customer values('john','noida','delhi'); 
+insert into customer values('mike','marine drive','mumbai'); 
+insert into customer values('sachin','green park','delhi'); 
+
+
+
+create table depositor 
+( 
+customer_name varchar(25) not null, 
+accno int not null, 
+foreign key (customer_name) references customer (customer_name),
+foreign key(accno) references account(accno) on delete cascade 
+); 
+
+insert into depositor values('ramu','123'); 
+insert into depositor values('ramu','156'); 
+insert into depositor values('ramu','189'); 
+insert into depositor values('kumar','456'); 
+insert into depositor values('john','789'); 
+insert into depositor values('mike','478'); 
+insert into depositor values('sachin','778');
+
+
+
+create table loan 
+( 
+loan_number int primary key, 
+branch_name varchar(25) not null, 
+amount decimal(10,2) not null, 
+foreign key(branch_name) references branch (branch_name) 
+); 
+
+insert into loan values('1111','jaynagar','250000'); 
+insert into loan values('2222','basavanagudi','350000'); 
+insert into loan values('3333','noida','150000'); 
+insert into loan values('4444','marine drive','1500000'); 
+insert into loan values('5555','green park','7500000'); 
+
+
+
+create table borrower 
+( 
+customer_name varchar(25) not null, 
+loan_number int not null, 
+foreign key(customer_name) references customer (customer_name), 
+foreign key (loan_number) references loan (loan_number), 
+primary key(customer_name,loan_number) 
+); 
+
+insert into borrower values('ramu','1111'); 
+insert into borrower values('kumar','2222'); 
+insert into borrower values('john','3333'); 
+insert into borrower values('mike','4444'); 
+insert into borrower values('sachin','5555');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

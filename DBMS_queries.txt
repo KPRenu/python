@@ -1,0 +1,180 @@
+1. Retrieve the name and address of all employees who work for the ‘Research’ department. 
+
+select E.Fname, E.Minit, E.Lname, E.Address 
+	from Employee E,Department D
+	WHERE D.Dnumber = E.Dno 
+	AND
+	D.Dname = 'Research';
+
+
+
+2. For every project located in ‘Stafford’, list the project number, the controlling department number, and the department manager’s last name, address, and birth date. 
+
+select e.Lname,e.Address,e.Bdate ,p.Pnumber,p.Dnum 
+	from Employee e,Project p 
+	WHERE Plocation='Stafford'
+	AND
+	p.Dnum=e.Dno;
+
+
+3. For each employee, retrieve the employee’s first and last name and the first and last name of his or her immediate supervisor. 
+
+ select e1.Fname,e1.Lname,e2.Fname,e2.Lname 
+	from Employee as e1,Employee as e2 
+	WHERE e2.Ssn=e1.Super_ssn;
+
+
+
+
+4. Make a list of all project numbers for projects that involve an employee whose last name is ‘Smith’, either as a worker or as a manager of the department that controls the project. 
+
+select p.Pnumber 
+	from Project p ,Employee e 
+	WHERE e.Lname = 'Smith' 
+	AND 
+	e.dno = p.Dnum;
+
+
+
+
+5.Retrieve all employees whose address is in Houston, Texas. 
+
+select * 
+	from Employee 
+	WHERE Address like '%Hous%';
+
+
+
+6.Retrieve all employees in department 5 whose salary is between $30,000 and $40,000. 
+
+
+select * 
+	from Employee 
+	WHERE (Salary between 30000 and 40000) 
+	AND 
+	Dno = 5;
+
+-----------------------------------------------------------------------------------------
+
+1.Retrieve the names of all employees who do not have supervisors. 
+
+select * 
+	from Employee 
+	WHERE Super_ssn is NULL;
+	
+
+2.Retrieve the name of each employee who has a dependent with the same first name and is the same sex as the employee. 
+
+select Fname,Lname 
+	from Employee E,Dependent Dp 
+	WHERE E.Fname = Dependent_name 
+	AND 
+	Dp.sex = E.sex;
+
+
+
+3.Retrieve the names of employees who have no dependents. 
+
+select Fname,Lname 
+	from Employee 
+	WHERE NOT EXISTS 
+	(select * from Dependent 
+		WHERE Ssn = Essn);
+
+
+
+
+4.List the names of managers who have at least one dependent.
+
+select Fname,Lname 
+	from Employee 
+	WHERE EXISTS 
+	(select * from Dependent 
+		WHERE Ssn = Essn) 
+	    AND 
+	    EXISTS (select * from Department 
+		    WHERE Ssn = Mgr_ssn);
+
+
+5.Retrieve the Social Security numbers of all employees who work on project numbers 1, 2, or 3.
+
+select distinct Essn 
+	from Works_on 
+	WHERE Pno in (1,2,3);
+
+
+
+
+6.Find the sum of the salaries of all employees of the ‘Research’ department, as well as the maximum salary, the minimum salary, and the average salary in this department.
+
+select SUM(salary), MAX(salary), MIN(salary), AVG(salary) 
+	from Employee,Department 
+	WHERE Dno = Dnumber 
+	AND 
+	Dname = 'Research';
+
+
+
+7.For each department, retrieve the department number, the number of employees in the department, and their average salary. 
+
+select COUNT(*),Dno,AVG(salary) 
+	from Employee 
+	group by Dno;
+
+
+
+
+
+----------------------------------------------------------------------------------------
+
+
+
+
+1. Find all the customers who have atleast two accounts at the Main branch. 
+
+SELECT DISTINCT d.customer_name, COUNT(*)
+FROM account a, depositor d
+WHERE a.accno = d.accno
+AND d.accno IN (
+    SELECT accno 
+    FROM account
+    WHERE branch_name = 'jaynagar'
+)
+GROUP BY d.customer_name
+HAVING COUNT(*) >= 2;
+
+
+
+
+2. Find all the customers who have an account at all the branches located in a specific city. 
+
+SELECT d.customer_name
+FROM account a, depositor d, branch b
+WHERE b.branch_name = a.branch_name 
+AND a.accno = d.accno
+AND b.branch_city = 'bangalore'
+GROUP BY d.customer_name
+HAVING COUNT(DISTINCT b.branch_name) = (
+    SELECT COUNT(branch_name)
+    FROM branch
+    WHERE branch_city = 'bangalore'
+);
+
+
+
+3. Demonstrate how you delete all account tuples at every branch located in a specific city. 
+
+delete from account 
+where branch_name in (select branch_name 
+from branch 
+where branch_city='delhi'); 
+
+
+
+
+
+
+
+
+
+
