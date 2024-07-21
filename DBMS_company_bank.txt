@@ -1,14 +1,17 @@
-create table Employee (
-    Fname varchar(20), 
-    Minit char, 
-    Lname varchar(20), 
-    Ssn varchar(9), 
-    Bdate datetime, 
-    Address varchar(30), 
-    Sex char, 
-    Salary int, 
-    Super_ssn varchar(15), 
-    Dno int);
+CREATE TABLE EMPLOYEE
+( Fname VARCHAR(10) NOT NULL,
+ Minit CHAR,
+ Lname VARCHAR(20) NOT NULL,
+ Ssn CHAR(9) NOT NULL,
+ Bdate DATE,
+ Address VARCHAR(30),
+ Sex CHAR(1),
+ Salary DECIMAL(5),
+ Super_ssn CHAR(9),
+ Dno INT NOT NULL,
+ PRIMARY KEY(Ssn));
+
+
 
 insert into Employee values(
     'John', 
@@ -102,15 +105,16 @@ insert into Employee values(
 );
 
 
+CREATE TABLE DEPARTMENT
+( Dname VARCHAR(15) NOT NULL,
+ Dnumber INT NOT NULL,
+ Mgr_ssn CHAR(9) NOT NULL,
+ Mgr_start_date DATE,
+ PRIMARY KEY (Dnumber),
+ UNIQUE (Dname),
+ FOREIGN KEY (Mgr_ssn) REFERENCES EMPLOYEE(Ssn) );
 
 
-
-create table Department(
-    Dname varchar(20),
-    Dnumber int, 
-    Mgr_ssn varchar(10),
-    Mgr_start_date datetime
-);
 
 insert into Department values(
     'Research',
@@ -131,11 +135,13 @@ insert into Department values(
 
 
 
+CREATE TABLE DEPT_LOCATIONS
+( Dnumber INT NOT NULL,
+ Dlocation VARCHAR(15) NOT NULL,
+ PRIMARY KEY (Dnumber, Dlocation),
+ FOREIGN KEY (Dnumber) REFERENCES DEPARTMENT(Dnumber) );
 
-create table Location(
-    Dnumber int,
-    Dlocation varchar(20)
-);
+
 
 insert into Location values
     (1,'Houston'),
@@ -148,12 +154,15 @@ insert into Location values
 
 
 
-create table Project(
-    Pname varchar(20),
-    Pnumber int,
-    Plocation varchar(20),
-    Dnum int
-);
+Create table PROJECT
+( pname varchar(25) not nullunique,
+ pnumber int not null primary key,
+ plocation varchar(15),
+ dnum int not null,
+ foreign key(dnum) references DEPARTMENT(Dnumber));
+
+
+
 
 insert into Project values
     ('ProductX',1,'Bellaire',5),
@@ -165,13 +174,15 @@ insert into Project values
 
 
 
+CREATE TABLE WORKS_ON
+( Essn CHAR(9) NOT NULL,
+ Pno INT NOT NULL,
+ Hours DECIMAL(3,1) NOT NULL,
+ PRIMARY KEY (Essn, Pno),
+ FOREIGN KEY (Essn) REFERENCES EMPLOYEE(Ssn),
+ FOREIGN KEY (Pno) REFERENCES PROJECT(Pnumber) );
 
 
-create table Works_on(
-    Essn varchar(20),
-    Pno int,
-    Hours float
-);
 
 insert into Works_on values
     ('123456789',1,32.5),
@@ -193,13 +204,16 @@ insert into Works_on values
 
 
 
-create table Dependent (
-    Essn varchar(10),
-    Dependent_name varchar(10),
-    Sex char,
-    Bdate datetime, 
-    Relationship varchar(10)
-);
+CREATE TABLE DEPENDENT
+( Essn CHAR(9) NOT NULL,
+ Dependent_name VARCHAR(15) NOT NULL,
+ Sex CHAR,
+Bdate DATE,
+ Relationship VARCHAR(8),
+ PRIMARY KEY (Essn, Dependent_name),
+ FOREIGN KEY (Essn) REFERENCES EMPLOYEE(Ssn) );
+
+
 
 insert into Dependent values(
     '333445555',
