@@ -10,11 +10,7 @@ select E.Fname, E.Minit, E.Lname, E.Address
 
 2. For every project located in ‘Stafford’, list the project number, the controlling department number, and the department manager’s last name, address, and birth date. 
 
-select e.Lname,e.Address,e.Bdate ,p.Pnumber,p.Dnum 
-	from Employee e,Project p 
-	WHERE Plocation='Stafford'
-	AND
-	p.Dnum=e.Dno;
+select pnumber,dnum,Lname,Address,Bdate from Employee e,Department d,Project p where plocation='Stafford' and d.mgr_ssn=e.ssn and p.dnum=d.Dnumber;
 
 
 3. For each employee, retrieve the employee’s first and last name and the first and last name of his or her immediate supervisor. 
