@@ -128,16 +128,7 @@ select COUNT(*),Dno,AVG(salary)
 
 1. Find all the customers who have atleast two accounts at the Main branch. 
 
-SELECT DISTINCT d.customer_name, COUNT(*)
-FROM account a, depositor d
-WHERE a.accno = d.accno
-AND d.accno IN (
-    SELECT accno 
-    FROM account
-    WHERE branch_name = 'jaynagar'
-)
-GROUP BY d.customer_name
-HAVING COUNT(*) >= 2;
+select customer_name,count(*) from account a,depositor d where a.accno=d.accno and branch_name='jaynagar' group by customer_name having count(*) >= 2;
 
 
 
